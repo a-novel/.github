@@ -11,6 +11,6 @@ Repositories for the Agora des Écrivains project.
 - **Votes service** \
   URL: https://votes.agoradesecrivains.net \
   Reserved local ports: `2042`
-- **Authorizations service** \
-  URL: https://authorizations.agoradesecrivains.net \
+- **Permissions service** \
+  URL: https://permissions.agoradesecrivains.net \
   Reserved local ports: `2043 / 20043`
