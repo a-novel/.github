@@ -23,6 +23,7 @@ services.
 - [Codecov](https://app.codecov.io/): code coverage reporting
 - [Sentry](https://agora-storyverse.sentry.io/): error tracking and performance monitoring
 - [Tolgee](https://app.tolgee.io/): translation management system
+- [AWS](https://agorastoryverse.awsapps.com/start)
 
 # Ports cheat sheet
 
