@@ -1,9 +1,29 @@
-![Agora des Écrivains](../assets/banner.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/agora%20(dark).png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/agora%20(light).png">
+  <img alt="Agora logo." src="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/agora%20(dark).png">
+</picture>
 
 # ⌨️ We are Agora
 
-Agora is an online writing studio, powered by AI. It helps you speed your writing process with the power of LLMs 
-(Large Language Models), and focus on creative tasks.
+Agora is an online writing studio, powered by AI. It helps you speed your writing process, and focus on creative tasks.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/studio%20(dark).png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/studio%20(light).png">
+  <img alt="Agora logo." src="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/agora%20(dark).png">
+</picture>
+
+Studio is our advanced creator tool for crafting engaging stories.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/storyverse%20(dark).png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/storyverse%20(light).png">
+  <img alt="Agora logo." src="https://raw.githubusercontent.com/a-novel/uikit/master/src/assets/logos/HD/agora%20(dark).png">
+</picture>
+
+Storyverse is the upcoming consumer-focused platform, where you can enjoy your favorite stories, engage with friends and
+creators, and way more!
 
 ## 📱 Socials
 
@@ -13,6 +33,3 @@ Join us on social media!
 [![Discord](https://img.shields.io/discord/1315240114691248138?logo=discord)](https://discord.gg/rp4Qr8cA)
 [![Spotify](https://img.shields.io/badge/Spotify-1ED760?logo=spotify&logoColor=white)](https://open.spotify.com/show/6NiTIuFh4vtNVoJzLozrWb)
 
-## Documentation
-
-- [Generic information](https://github.com/a-novel/.github)
