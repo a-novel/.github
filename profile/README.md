@@ -72,5 +72,5 @@ We use the following system for selecting ports in development:
 |-------------------------------------------------------------------------------|----------------|-------------------------------------------------------------|
 | [Service Json-Keys](https://github.com/a-novel/service-json-keys)             | `400-`, `500-` | grpc `4002, 5002`<br/>pg `4003, 5003`                       |
 | [Service Authentication](https://github.com/a-novel/service-authentication)   | `401-`, `501-` | rest `4011, 5011`<br/>pg `4013, 5013`<br/>smtp `4014, 5014` |
-| [Platform Authentication](https://github.com/a-novel/platform-authentication) | `600-`, `700-` | client `6000, 7000`<br/>tolgee `6005`                       |
+| [Platform Authentication](https://github.com/a-novel/platform-authentication) | `600-`, `700-` | client `6000, 7000`<br/>tolgee `6005`<br/>tolgee `6005`     |
 | [UiKit](https://github.com/a-novel/uikit)                                     | `601-`, `701-` | tolgee `6015`                                               |
