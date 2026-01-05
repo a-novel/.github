@@ -57,5 +57,5 @@ We use the following system for selecting ports in development:
 | [Service Authentication](https://github.com/a-novel/service-authentication)   | `401-`, `501-` | rest `4011, 5011`<br/>pg `4013, 5013`<br/>smtp `4014, 5014` |
 | [UiKit](https://github.com/a-novel/uikit)                                     | `600-`, `700-` | tolgee `6005`                                               |
 | [Platform Authentication](https://github.com/a-novel/platform-authentication) | `601-`, `701-` | client `6010, 7010`<br/>tolgee `6015`                       |
-| [Platform Authentication](https://github.com/a-novel/platform-studio)         | `602-`, `702-` | client `6020, 7020`<br/>tolgee `6025`                       |
-| [Platform Authentication](https://github.com/a-novel/platform-back-office)    | `603-`, `703-` | client `6030, 7030`<br/>tolgee `6035`                       |
+| [Platform Studio](https://github.com/a-novel/platform-studio)                 | `602-`, `702-` | client `6020, 7020`<br/>tolgee `6025`                       |
+| [Platform Back-Office](https://github.com/a-novel/platform-back-office)       | `603-`, `703-` | client `6030, 7030`<br/>tolgee `6035`                       |
