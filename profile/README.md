@@ -8,23 +8,6 @@
 
 Agora is an online writing studio, powered by AI. It helps you speed your writing process, and focus on creative tasks.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/studio%20(dark).png">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/studio%20(light).png">
-  <img alt="Agora logo." src="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/agora%20(dark).png">
-</picture>
-
-Studio is our advanced creator tool for crafting engaging stories.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/storyverse%20(dark).png">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/storyverse%20(light).png">
-  <img alt="Agora logo." src="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/agora%20(dark).png">
-</picture>
-
-Storyverse is the upcoming consumer-focused platform, where you can enjoy your favorite stories, engage with friends and
-creators, and way more!
-
 ## 📱 Socials
 
 Join us on social media!
@@ -72,5 +55,7 @@ We use the following system for selecting ports in development:
 |-------------------------------------------------------------------------------|----------------|-------------------------------------------------------------|
 | [Service Json-Keys](https://github.com/a-novel/service-json-keys)             | `400-`, `500-` | grpc `4002, 5002`<br/>pg `4003, 5003`                       |
 | [Service Authentication](https://github.com/a-novel/service-authentication)   | `401-`, `501-` | rest `4011, 5011`<br/>pg `4013, 5013`<br/>smtp `4014, 5014` |
-| [Platform Authentication](https://github.com/a-novel/platform-authentication) | `600-`, `700-` | client `6000, 7000`<br/>tolgee `6005`<br/>tolgee `6005`     |
-| [UiKit](https://github.com/a-novel/uikit)                                     | `601-`, `701-` | tolgee `6015`                                               |
+| [UiKit](https://github.com/a-novel/uikit)                                     | `600-`, `700-` | tolgee `6005`                                               |
+| [Platform Authentication](https://github.com/a-novel/platform-authentication) | `601-`, `701-` | client `6010, 7010`<br/>tolgee `6015`                       |
+| [Platform Authentication](https://github.com/a-novel/platform-studio)         | `602-`, `702-` | client `6020, 7020`<br/>tolgee `6025`                       |
+| [Platform Authentication](https://github.com/a-novel/platform-back-office)    | `603-`, `703-` | client `6030, 7030`<br/>tolgee `6035`                       |
