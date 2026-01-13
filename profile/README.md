@@ -18,6 +18,8 @@ Join us on social media!
 
 # Technical
 
+Take a look at our [roadmap](https://github.com/orgs/a-novel/projects/7).
+
 ## Ports cheat sheet
 
 We use the following system for selecting ports in development:
