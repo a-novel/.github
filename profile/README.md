@@ -43,26 +43,18 @@ We use the following system for selecting ports in development:
 | Dependency / Sub-service | Description                 |
 | ------------------------ | --------------------------- |
 | `---0`                   | Client application (client) |
-<<<<<<< HEAD
-| `---1`                   | Rest API           (rest)   |
-| `---2`                   | GRPC Service       (grpc)   |
-| `---3`                   | Postgres Database  (pg)     |
-| `---4`                   | Mail server        (smtp)   |
-| `---5`                   | Tolgee server      (tolgee) |
-=======
 | `---1`                   | Rest API (rest)             |
 | `---2`                   | GRPC Service (grpc)         |
 | `---3`                   | Postgres Database (pg)      |
 | `---4`                   | Mail server (smtp)          |
->>>>>>> 30a22fb (feat(docs): add contribution guidelines)
+| `---5`                   | Tolgee server (tolgee)      |
 
 </td></tr>
 
 </table>
 
-<<<<<<< HEAD
 | Service                                                                         | Port range     | Sub-services                                                |
-|---------------------------------------------------------------------------------|----------------|-------------------------------------------------------------|
+| ------------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------- |
 | [Service Json-Keys](https://github.com/a-novel/service-json-keys)               | `400-`, `500-` | grpc `4002, 5002`<br/>pg `4003, 5003`                       |
 | [Service Authentication](https://github.com/a-novel/service-authentication)     | `401-`, `501-` | rest `4011, 5011`<br/>pg `4013, 5013`<br/>smtp `4014, 5014` |
 | [Service Narrative Engine](https://github.com/a-novel/service-narrative-engine) | `402-`, `502-` | rest `4021, 5021`<br/>pg `4023, 5023`<br/>smtp `4024, 5024` |
@@ -70,10 +62,3 @@ We use the following system for selecting ports in development:
 | [Platform Authentication](https://github.com/a-novel/platform-authentication)   | `601-`, `701-` | client `6010, 7010`<br/>tolgee `6015`                       |
 | [Platform Studio](https://github.com/a-novel/platform-studio)                   | `602-`, `702-` | client `6020, 7020`<br/>tolgee `6025`                       |
 | [Platform Back-Office](https://github.com/a-novel/platform-back-office)         | `603-`, `703-` | client `6030, 7030`<br/>tolgee `6035`                       |
-=======
-| Service                                                                       | Port range     | Sub-services                                                |
-| ----------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------- |
-| [Service Json-Keys](https://github.com/a-novel/service-json-keys)             | `400-`, `500-` | grpc `4002, 5002`<br/>pg `4003, 5003`                       |
-| [Service Authentication](https://github.com/a-novel/service-authentication)   | `401-`, `501-` | rest `4011, 5011`<br/>pg `4013, 5013`<br/>smtp `4014, 5014` |
-| [Platform Authentication](https://github.com/a-novel/platform-authentication) | `600-`, `700-` | client `6000, 7000`                                         |
->>>>>>> 30a22fb (feat(docs): add contribution guidelines)
