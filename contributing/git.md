@@ -14,7 +14,6 @@ Format: `type/scope/short-description`
 feat/auth/two-factor-login
 fix/dao/credentials-null-check
 chore/deps/upgrade-chi
-refactor/services/token-validation
 ```
 
 **Types:**
@@ -41,10 +40,6 @@ Format: `type(scope): short description`
 feat(handlers): allow users to login with shortcodes
 fix(dao): handle null email in credentials lookup
 chore(deps): upgrade testify to v1.9.0
-refactor(services): extract token validation logic
-docs(readme): update installation instructions
-test(credentials): add edge cases for email validation
-perf(dao): optimize credentials list query
 ```
 
 Keep descriptions concise and imperative ("add", "fix", "update" — not "added", "fixes", "updating").
