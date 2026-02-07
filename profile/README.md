@@ -43,7 +43,7 @@ We use the following system for selecting ports in development:
 | Dependency / Sub-service | Description                 |
 | ------------------------ | --------------------------- |
 | `---0`                   | Client application (client) |
-| `---1`                   | Rest API (rest)             |
+| `---1`                   | REST API (rest)             |
 | `---2`                   | GRPC Service (grpc)         |
 | `---3`                   | Postgres Database (pg)      |
 | `---4`                   | Mail server (smtp)          |
