@@ -13,6 +13,5 @@ appropriately. However, AI-generated code is still **your responsibility** — y
 - **Never generate code you can't review**: we don't enforce any rules about the scope of AI assistance. Generating
   basic code, test suites, or drafting more complex logic are all valid use cases. However, the rules that apply to
   human-written code also apply to AI-generated code. Your updates should be concise, documented, and to the point.
-- **Don't**: refactor large parts of the codebase at once, or replace well-maintained libraries with AI-generated 
+- **Don't**: refactor large parts of the codebase at once, or replace well-maintained libraries with AI-generated
   helpers (unless you thoroughly review them)
-
