@@ -7,6 +7,8 @@ appropriately. However, AI-generated code is still **your responsibility** — y
 
 ## Core Principles
 
+_We want AI code, not AI slop code_
+
 - **Skills are yours, not AI**: a bad coder will produce bad code, with or without AI assistance. We expect all
   the code you produce to be your own, i.e. code that you fully understand down to the smallest detail. If your output
   is not worth more than AI, your participation is worthless to us (we already have AI at home).
