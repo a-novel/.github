@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability report
+    url: https://github.com/a-novel/.github/blob/master/SECURITY.md
+    about: |
+      Please do not open public issues for security vulnerabilities. Follow the org security
+      policy to report privately via GitHub private vulnerability reporting or email.
+  - name: Questions, discussions and community support
+    url: https://discord.gg/rp4Qr8cA
+    about: |
+      For usage questions, design discussions, or general help, join us on Discord — the issue
+      tracker is for actionable bug reports and feature requests only.
+  - name: Code of Conduct
+    url: https://github.com/a-novel/.github/blob/master/CODE_OF_CONDUCT.md
+    about: |
+      All participation in this project is governed by our Code of Conduct. Please read it
+      before opening an issue.
