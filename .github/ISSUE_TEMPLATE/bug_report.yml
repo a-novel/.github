@@ -1,0 +1,131 @@
+name: Bug report
+description: Report a reproducible bug or regression in an a-novel project.
+title: "bug: <short description>"
+labels:
+  - bug
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report!
+
+        **Before you continue:**
+        - If you suspect a **security vulnerability**, please do not open a public issue. Follow
+          the [security policy](https://github.com/a-novel/.github/blob/master/SECURITY.md)
+          to report it privately.
+        - Please search [existing issues](https://github.com/a-novel) first to avoid duplicates.
+        - For questions or general support, please use [Discord](https://discord.gg/rp4Qr8cA)
+          rather than the issue tracker.
+
+  - type: input
+    id: affected-repo
+    attributes:
+      label: Affected repository
+      description: Which repository in the `a-novel` or `a-novel-kit` org does this bug live in?
+      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel/uikit
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: |
+        Which version, release tag, container image tag, or commit SHA are you running? If you
+        are running from `master`, paste the commit SHA from `git rev-parse HEAD`.
+      placeholder: e.g. v1.4.2, master @ a1b2c3d, ghcr.io/a-novel/service-x:1.4.2
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of what the bug is.
+      placeholder: |
+        When I do X, I expect Y, but I see Z instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Minimal, complete, reproducible steps. If a code snippet or shell session reproduces it,
+        paste it as a fenced code block. The more precise this is, the faster we can fix it.
+      placeholder: |
+        1. Clone repo and check out commit X
+        2. Run `make …`
+        3. Send request `…`
+        4. Observe error `…`
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: What actually happened? Include error messages, stack traces, or screenshots.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Anything that might be relevant to reproducing the issue.
+      value: |
+        - OS:
+        - Architecture (amd64, arm64):
+        - Go version (`go version`) — if applicable:
+        - Node version (`node --version`) — if applicable:
+        - Browser (name + version) — if applicable:
+        - Container runtime (Docker / Podman + version) — if applicable:
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or output
+      description: |
+        Paste any relevant logs, stack traces, or command output here. **Please redact any
+        secrets, tokens, or personal data** before submitting.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context, links, or screenshots about the problem here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: |
+        By submitting this issue, you agree to follow the project's
+        [Code of Conduct](https://github.com/a-novel/.github/blob/master/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this project's Code of Conduct.
+          required: true
+        - label: I have searched existing issues and confirmed this is not a duplicate.
+          required: true
+        - label: This is not a security vulnerability (security reports must follow the security policy).
+          required: true

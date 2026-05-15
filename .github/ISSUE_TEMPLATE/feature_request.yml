@@ -1,0 +1,111 @@
+name: Feature request
+description: Suggest an idea, enhancement, or new capability for an a-novel project.
+title: "feat: <short description>"
+labels:
+  - enhancement
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a feature!
+
+        **Before you continue:**
+        - Please search [existing issues](https://github.com/a-novel) and the
+          [roadmap](https://github.com/orgs/a-novel/projects/7) first to avoid duplicates.
+        - For open-ended discussion or ideas you are not yet sure about, please use
+          [Discord](https://discord.gg/rp4Qr8cA) — once an idea has crystallised into a concrete
+          ask, file it here.
+
+  - type: input
+    id: target-repo
+    attributes:
+      label: Target repository
+      description: |
+        Which repository (or repositories) should this feature land in? If you are not sure,
+        leave a best guess and a maintainer will reassign.
+      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel/uikit
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: |
+        What problem are you trying to solve? Describe the user-facing pain point or the gap in
+        the current API, not the implementation you have in mind.
+      placeholder: |
+        Today, when I try to do X, I have to do Y, which is painful because …
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: |
+        Describe the change you would like to see. API shape, UX flow, configuration knobs —
+        whatever fits the kind of change you are proposing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        Have you tried other approaches or workarounds? What did and did not work? Are there
+        existing tools or libraries that solve a similar problem in a different way?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Would this be a breaking change?
+      description: |
+        A "breaking change" is one that removes or renames an existing public symbol, changes
+        the semantics of a public API, or otherwise requires existing consumers to update their
+        code or configuration.
+      options:
+        - "No — fully backwards compatible"
+        - "Yes — but staged migration is possible"
+        - "Yes — hard break, no migration path"
+        - "I'm not sure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case / motivation
+      description: |
+        Who benefits from this? Is there a concrete project, integration, or workflow that needs
+        this feature? Real-world context helps us prioritise.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: |
+        Add any other context, mockups, links to related discussions, or prior art here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: |
+        By submitting this request, you agree to follow the project's
+        [Code of Conduct](https://github.com/a-novel/.github/blob/master/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this project's Code of Conduct.
+          required: true
+        - label: I have searched existing issues and confirmed this is not a duplicate.
+          required: true
+        - label: I have checked the roadmap and confirmed this is not already planned.
+          required: true
