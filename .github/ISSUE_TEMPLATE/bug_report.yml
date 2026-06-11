@@ -57,7 +57,7 @@ body:
         paste it as a fenced code block. The more precise this is, the faster we can fix it.
       placeholder: |
         1. Clone repo and check out commit X
-        2. Run `make …`
+        2. Run `a-novel …`
         3. Send request `…`
         4. Observe error `…`
     validations:

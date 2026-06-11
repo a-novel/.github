@@ -19,3 +19,8 @@ Join us on social media!
 # Technical
 
 Take a look at our [roadmap](https://github.com/orgs/a-novel/projects/7).
+
+Want to build Agora locally? Head to the
+[developer onboarding guide](https://github.com/a-novel-kit/.github/blob/master/profile/README.md)
+in our sister org [a-novel-kit](https://github.com/a-novel-kit), home of our shared libraries
+and tooling.

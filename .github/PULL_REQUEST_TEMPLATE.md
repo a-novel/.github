@@ -7,8 +7,7 @@ Before you submit, please make sure:
               fix(handlers): return 404 instead of 500 on missing key
               chore(deps): bump golib to v1.4.2
   - The branch name follows the same vocabulary: <type>/<scope>/<short-description>
-  - You have read the contributing guide (../CONTRIBUTING.md) and the
-    Code of Conduct (../CODE_OF_CONDUCT.md).
+  - You have read the Code of Conduct (../CODE_OF_CONDUCT.md).
 
 You can delete this comment block once your PR is ready.
 -->
@@ -59,12 +58,11 @@ Closes #
 ## Test plan
 
 <!-- How did you verify the change? Tick every check that applies, and add any manual steps
-     reviewers should run locally. Replace `make …` with the equivalent command for the repo
-     if it uses a different runner (pnpm, just, etc.). -->
+     reviewers should run locally. -->
 
-- [ ] Unit tests pass locally (`make test-unit` / `pnpm test` / equivalent)
+- [ ] Tests pass locally (`a-novel test -y` / `pnpm test` / equivalent)
 - [ ] Integration tests pass locally where applicable
-- [ ] Linters and formatters pass (`make lint` / `pnpm lint` / equivalent)
+- [ ] Linters and formatters pass (`pnpm lint` / `pnpm lint:go` / equivalent)
 - [ ] Manually verified in a local dev environment (describe steps below)
 
 <!-- Manual verification steps:
