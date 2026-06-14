@@ -16,11 +16,11 @@ Join us on social media!
 [![Discord](https://img.shields.io/discord/1315240114691248138?logo=discord)](https://discord.gg/rp4Qr8cA)
 [![Spotify](https://img.shields.io/badge/Spotify-1ED760?logo=spotify&logoColor=white)](https://open.spotify.com/show/6NiTIuFh4vtNVoJzLozrWb)
 
-# Technical
+## Technical
 
 Take a look at our [roadmap](https://github.com/orgs/a-novel/projects/7).
 
 Want to build Agora locally? Head to the
-[developer onboarding guide](https://github.com/a-novel-kit/.github/blob/master/README.md)
+[developer onboarding guide](https://github.com/a-novel-kit/.github#readme)
 in our sister org [a-novel-kit](https://github.com/a-novel-kit), home of our shared libraries
 and tooling.
