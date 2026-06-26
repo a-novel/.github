@@ -1,0 +1,123 @@
+name: Task / planning
+description: Plan a concrete piece of work using the standard structure. The body is the agreed plan; keep open questions in comments.
+title: "task: <short description>"
+type: Task
+labels:
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this to plan a concrete unit of work — a **Task** (≈ one pull request).
+
+        - For a larger, multi-stage or multi-repo initiative, set the issue **type** to **Epic** and
+          break it into Task **sub-issues**; sequence them with **blocked-by** dependencies so a stage
+          only starts once its predecessor lands.
+        - The fields below are the **plan**. Keep it clean: put open questions, options, and
+          back-and-forth in **comments**, not in the body.
+        - Not sure yet, or want to discuss first? Use [Discord](https://discord.gg/rp4Qr8cA); file
+          here once the idea has crystallised. Check the
+          [roadmap](https://github.com/orgs/a-novel/projects/7) to avoid duplicates.
+
+  - type: input
+    id: affected-repos
+    attributes:
+      label: Affected repositories
+      description: Which repo(s) in the `a-novel` / `a-novel-kit` orgs does this touch?
+      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome, and why it matters — in plain language a non-technical reader can follow.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What this delivers, and what is deliberately excluded.
+      value: |
+        **In:**
+
+        **Out:**
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & findings
+      description: |
+        Current state, the relevant code (with file paths), any research (with sources), and
+        constraints that shape the design.
+    validations:
+      required: false
+
+  - type: textarea
+    id: approach
+    attributes:
+      label: Proposed approach
+      description: |
+        The design. Freeze the core domain vocabulary here. State the alternatives you considered
+        and why you rejected them. Note how it fares against secure-by-design / efficient /
+        maintainable / UX.
+    validations:
+      required: true
+
+  - type: textarea
+    id: cross-repo
+    attributes:
+      label: Cross-repo & rollout
+      description: |
+        Repos and repo kinds touched, the dependency order, and whether it must ship in stages
+        (backward-compatible first, cleanup later). Cross-repo version mechanics are owned by the
+        version-management process — capture intent here, not the git mechanics.
+    validations:
+      required: false
+
+  - type: textarea
+    id: breakdown
+    attributes:
+      label: Work breakdown
+      description: |
+        The Task sub-issues, in order — each ≈ one branch/PR. Track them natively as sub-issues +
+        blocked-by links; list them here for the reader.
+      placeholder: |
+        1. service-x — add the new endpoint (#...)
+        2. platform-y — wire the client, blocked by #1
+    validations:
+      required: false
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks & security
+      description: Failure modes, security considerations, and anything that could go wrong.
+    validations:
+      required: false
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope / future
+      description: Deferred ideas worth remembering, so they are not lost.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: |
+        By submitting this issue, you agree to follow the project's
+        [Code of Conduct](https://github.com/a-novel/.github/blob/master/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this project's Code of Conduct.
+          required: true
+        - label: I have searched existing issues and the roadmap and confirmed this is not a duplicate.
+          required: true
