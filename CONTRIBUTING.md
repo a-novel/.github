@@ -54,24 +54,19 @@ protocols carry the API is an [implementation detail](#implementation-details).
 A request enters through the API and is **dispatched down the service's layers in order**: each layer
 does its part, then the response flows back up.
 
-Reaching an external dependency is **not tied to a layer** — it is not part of the hierarchy, so it
-can happen from any layer that needs it, within that layer's boundaries. See
-[A service is also a caller](#a-service-is-also-a-caller).
-
 ```
-  caller ──► API ──► layer ──► layer ──► layer        request flows down,
-                        └──► external dependency       response flows back up
+  caller ──► API ──► layer ──► layer ──► layer        request down, response back up
 ```
 
 The **layer order is itself a contract**. Layers form a hierarchy: a layer answers to the one above
-it and calls the one below it. Calling sideways is allowed but discouraged — the core does it to
-share logic. Layers cannot be skipped.
+it and calls the one below it. Within a layer, components may also call each other **sideways** to
+share logic — the core does this often. A layer is never skipped.
 
 | Layer       | Role                                                                                                                                                                        |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Handler** | The **translation layer**: it parses an incoming, serialized API call into the internal types the layers below use, and turns their answer back into a serialized response. |
 | **Core**    | The **logical layer**: it turns a domain feature into running code, calling the layers below as dependencies.                                                               |
-| **DAO**     | The boundary to an **external data source** — a database, a cache server. (Data the service keeps in memory is not its concern.)                                            |
+| **DAO**     | The boundary to an **external storage source** — a database, a cache server: any store that lives outside the program's own memory.                                         |
 
 Some modules sit outside the layer system — configuration and local helpers; see
 [implementation details](#implementation-details).
@@ -89,13 +84,6 @@ Layers — and services — communicate only through **contracts**, of two kinds
 Internal contracts are shaped by **models**: the equivalent of an API's request and response, but in
 the layer's own language.
 
-#### A service is also a caller
-
-A service does not only serve an API — it **calls** others. Each call goes to another API: a sibling
-service (service to service), a database, a mail server. The service reaches whichever it needs from
-whichever layer needs it — its data from the DAO, mail from the core — so a request's work can carry
-on past the service's own boundary.
-
 #### Layering rationale
 
 Layers separate concerns by how controllable they are. A **low** layer holds simple logic but little
@@ -104,6 +92,13 @@ a provider. A **high** layer holds the complex logic, but can **mock** the layer
 controls its whole environment in a test. Layering balances the two, leaving each layer testable in
 the way that suits it: the low ones for their narrow logic, the high ones with everything below them
 mocked.
+
+#### A service is also a caller
+
+A service does not only serve an API — it **calls** others. Reaching an external dependency is **not
+tied to a layer**: it is not part of the hierarchy, so any layer may do it where its work needs it,
+within that layer's boundaries. Each call goes to another API — a sibling service, a database, a mail
+server, any external dependency — so a request's work carries on past the service's own boundary.
 
 ### State and data
 
