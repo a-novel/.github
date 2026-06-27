@@ -151,6 +151,27 @@ why each:
   **[GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)**
   for orchestration.
 
+#### Code structure
+
+The layers above map to the same Go packages in every service, so a contributor moving between them
+finds the same shape — only the domain resource differs:
+
+- **`internal/dao`** — the DAO layer; one file per query (a `.go`, plus a `.sql` when the query is
+  hand-written), built on bun.
+- **`internal/core`** — the core layer; one file per feature. Each operation **owns the interface
+  of the dependency it calls** — a `<Resource>Dao` Go interface, held in a `dao` field — while
+  `internal/dao` provides the implementation. The interface lives with the **caller**, not the
+  callee: the core depends on a contract it defines, never on the database package directly. This is
+  what lets a high layer mock everything beneath it (see [Layering rationale](#layering-rationale)).
+- **`internal/handlers`** — the handler layer; `http.*` files serve the REST API, `grpc.*` the
+  gRPC one.
+- **`cmd/<target>`** — one `main.go` per [runnable target](#runnable-units): a server or a job.
+- **`pkg/go`, `pkg/js`** — the [client packages](#interacting-with-a-service), one per language.
+
+Configuration and local helpers sit outside the layers. The Go interfaces between layers have their
+test mocks **generated**, not written by hand. A service's own `CONTRIBUTING.md` only maps these
+packages to its concrete resource and files; it does not restate the model.
+
 ## External resources
 
 - [Developer onboarding guide](https://github.com/a-novel-kit/.github/blob/master/README.md) — the
