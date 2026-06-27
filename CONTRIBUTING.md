@@ -1,14 +1,14 @@
 # Contributing to a-novel services
 
-The shared vocabulary behind every backend service in the
-[`a-novel`](https://github.com/a-novel) organization — its terms, its architecture, and the
-reasoning behind both. Each service specifies its own taxonomy in its `CONTRIBUTING.md`, a mere
-extension of this document.
-
 ## Taxonomy
 
-This section defines the concepts every service shares. It will grow to cover the wider contributor
-process in time; for now it is the vocabulary.
+The shared vocabulary behind every backend service in the
+[`a-novel`](https://github.com/a-novel) organization — its terms, its architecture, and the
+reasoning behind both. Each service specifies its own taxonomy in its `CONTRIBUTING.md`, which acts
+as an extension of this document.
+
+The backend is a set of **isolated services**. Each owns one slice of the product and runs on its
+own; client code reaches them only through their **APIs**.
 
 ### Services and domains
 
@@ -18,18 +18,22 @@ together and would make no sense apart, and that set is a domain. A service owns
 
 A service is not a single program. It is the whole bounded **environment** for its domain: the
 **APIs** that expose it, the **jobs** that maintain it, and the **infrastructure** it runs on — a
-database, a cache, whatever the domain needs. Nothing reaches inside; other services speak only to
-its APIs.
+database, a cache, whatever the domain needs. The only way in is the API; nothing else reaches
+inside.
 
-The goal is for a service to be **self-contained** — able to serve its features from end to end on
-its own. Owning a whole domain is what makes that possible. Split a domain across many small services
-instead, and you need a gateway or an orchestrator to stitch them back together, plus a sync bus
-(such as Kafka) to keep them aligned: one endpoint becomes a pipeline of services. Owning the domain
-keeps that endpoint a single, layered call. (A technical concern occasionally earns its own service,
-but that is the exception.)
+A service should be **self-contained** — able to serve its features from end to end on its own.
+Owning a whole domain is what makes that possible.
 
-This is why our services sit closer to **macro-services** than to micro- or nano-services: a few
-larger services, each shaped to a domain, are simpler to build and change than many tiny ones.
+> Split a domain across many small services instead, and you need a gateway or an orchestrator to
+> stitch them back together, plus a sync bus (such as Kafka) to keep them aligned: one endpoint
+> becomes a pipeline of services. Owning the domain keeps that endpoint a single, layered call.
+
+So we prefer to start with **large services and split them later**, over small services we have to
+merge — and we sit closer to **macro-services** than to micro- or nano-services.
+
+A **technical concern** earns its own service only when it is large enough _and_ shared across
+several services. Such a service usually exposes **internal APIs** only: it exists to be called by
+other services, not by external clients.
 
 ### Interacting with a service
 
@@ -43,31 +47,31 @@ protocols carry the API is an [implementation detail](#implementation-details).
   ships a ready-made permission helper) so callers need not re-declare the contract themselves. It is
   not a second contract; it is the same API, bundled.
 - A **job** is a one-off run that acts _on_ a service rather than serving a request — see
-  [State, data, and jobs](#state-data-and-jobs).
+  [Jobs](#jobs).
 
 ### Inside a service: layers and contracts
 
-A request enters through the API and is **dispatched down the service's layers in order** — each
-layer does its part, then the response flows back up.
+A request enters through the API and is **dispatched down the service's layers in order**: each layer
+does its part, then the response flows back up.
 
-Separately, a layer may reach _past_ the service to a dependency it calls (the core, for example,
-often sends mail). So a request's flow is not confined to the service; see
+Reaching an external dependency is **not tied to a layer** — it is not part of the hierarchy, so it
+can happen from any layer that needs it, within that layer's boundaries. See
 [A service is also a caller](#a-service-is-also-a-caller).
 
 ```
-  caller ──API──►  layer ─►  layer ─►  layer        (request down, response back up)
-                                  └──►  a dependency the service calls
+  caller ──► API ──► layer ──► layer ──► layer        request flows down,
+                        └──► external dependency       response flows back up
 ```
 
 The **layer order is itself a contract**. Layers form a hierarchy: a layer answers to the one above
-it and calls the one below it. Calling sideways is allowed but discouraged — the core sometimes does
-it to share logic — and skipping a layer is not.
+it and calls the one below it. Calling sideways is allowed but discouraged — the core does it to
+share logic. Layers cannot be skipped.
 
-| Layer       | Role                                                                                                                                                 |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Handler** | The **translation layer**: it parses an incoming API call into the internal types the layers below use, and turns their answer back into a response. |
-| **Core**    | The **logical layer**: it turns a domain feature into running code, calling the layers below as dependencies.                                        |
-| **DAO**     | The boundary to an **external data source** — a database, a cache server. (Data the service keeps in memory is not its concern.)                     |
+| Layer       | Role                                                                                                                                                                        |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Handler** | The **translation layer**: it parses an incoming, serialized API call into the internal types the layers below use, and turns their answer back into a serialized response. |
+| **Core**    | The **logical layer**: it turns a domain feature into running code, calling the layers below as dependencies.                                                               |
+| **DAO**     | The boundary to an **external data source** — a database, a cache server. (Data the service keeps in memory is not its concern.)                                            |
 
 Some modules sit outside the layer system — configuration and local helpers; see
 [implementation details](#implementation-details).
@@ -87,46 +91,52 @@ the layer's own language.
 
 #### A service is also a caller
 
-A service does not only serve an API; it **calls** others. Those calls go to plain APIs too — another
-service (service to service), a database, a mail server. A service reaches each from whichever layer
-needs it: the DAO for its data, the core for mail, and so on.
+A service does not only serve an API — it **calls** others. Each call goes to another API: a sibling
+service (service to service), a database, a mail server. The service reaches whichever it needs from
+whichever layer needs it — its data from the DAO, mail from the core — so a request's work can carry
+on past the service's own boundary.
 
 #### Layering rationale
 
-The lower a layer sits, the closer it is to constraints the service does not control — a wire format,
-a database's quirks, a provider's API. Concentrating those constraints in small, low-level layers
-frees the layers above to follow only the contract they chose. **Testing** is one beneficiary:
-because a layer depends only on a contract, a test can replace the layer below it and exercise the
-upper layer with no live dependency.
+Layers separate concerns by how controllable they are. A **low** layer holds simple logic but little
+control over its surroundings: it sits against the uncontrolled outside — a wire format, a database,
+a provider. A **high** layer holds the complex logic, but can **mock** the layers beneath it, and so
+controls its whole environment in a test. Layering balances the two, leaving each layer testable in
+the way that suits it: the low ones for their narrow logic, the high ones with everything below them
+mocked.
 
-### State, data, and jobs
+### State and data
 
-A service holds two kinds of information, and the difference is what lets us draw the boundary of a
-**job**.
+A service holds two kinds of information.
 
 - **Data** is what a service is _about_: the domain records it stores and serves. The service works
-  on its data through the API, while serving requests. More data does not change how the service
-  behaves — it is more of the same.
+  on its data while serving requests; more data does not change how it behaves.
 - **State** is the smaller set of facts that decide _how_ a service behaves and what it is capable
-  of: configuration, a feature flag, a signing key, an elevated user, the schema version. State is
-  set deliberately and changes rarely; it may sit in the database next to the data, or in memory.
-  Changing data is the service doing its work; changing state changes the work itself.
+  of: configuration, a feature flag, a signing key, an elevated user, the schema version. It may sit
+  in the database next to the data, or in memory. Changing data is the service doing its work;
+  changing state changes the work itself.
 
-Both can change two ways. **In-band**, an API request changes them while serving a caller — most
-data, and some state, moves this way. **Out-of-band**, a **job** changes them with no caller
-involved.
+### Jobs
 
-A **job** is an operation that no request drives. An operator or a schedule triggers it; it runs
-once, to completion, and exits. Its role is to **establish or maintain the ground a service runs
-on** — applying a schema **migration**, seeding or correcting state, rotating keys, a scheduled
-cleanup. That is also its boundary: a job never serves a request and never has a caller waiting on
-its result. If the work answers to a caller, it belongs in the API, not a job.
+A **job** is how a service is changed **out-of-band** — outside the request flow. Where an API call
+changes data or state while serving a caller, a job does so with no caller involved:
+
+- Its call is **intentional**: an operator or a schedule triggers it, not an external actor's
+  request.
+- It runs **once**, to completion, and exits.
+- Its role is to **establish or maintain the ground a service runs on** — applying a schema
+  **migration**, seeding or correcting state, rotating keys, a scheduled cleanup.
+
+Its boundary follows: a job never serves a request and never has a caller waiting on its result. If
+the work answers to a caller, it belongs in the API, not a job.
 
 ### Runnable units
 
-A service compiles to several small binaries; each is a **target** — the unit built, started, and
-supervised on its own. A target is a **server** while it stays up to serve an API, or a **job** (see
-above) when it runs once and exits.
+A service compiles to several small binaries, each a **target** — the unit built, started, and
+supervised on its own. A target is either:
+
+- a **server**, while it stays up to serve an API; or
+- a **job** (see above), which runs once and exits.
 
 ### Implementation details
 
