@@ -63,6 +63,10 @@ depending only on the one beneath it.
 | **Core**    | The domain logic — the validation, rules, and orchestration that define what the service does. Independent of transport or store. |
 | **DAO**     | The data boundary. Reads and writes the service's data through whatever source holds it. Holds no rules.                          |
 
+Not everything in a service is a layer: configuration (read once at start-up) and small local
+helpers are **support code** — they serve the layers without sitting in the request path or holding
+domain rules.
+
 A layer never reaches past its neighbour; it talks to it through a **contract**. Contracts come in
 two kinds, and the difference is the point:
 
@@ -70,6 +74,11 @@ two kinds, and the difference is the point:
   cross-service event.
 - **Internal contracts** are the interfaces between layers — one narrow interface per operation,
   passing **models** (plain structs) as the shared currency. Changing one is a local refactor.
+
+Two artifacts version these contracts, pointing opposite ways. The external API is generated from a
+**proto** definition — the source of truth for the gRPC surface and its client, facing outward to
+callers. The store schema the DAO is written against evolves through ordered **migrations**, applied
+before any server starts and facing inward to the store.
 
 Separating concerns this way pays off most in **testing**. Because a layer depends only on a
 contract, a test for an upper layer substitutes a stand-in for the layer below: core logic is
