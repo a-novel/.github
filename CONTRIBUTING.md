@@ -1,134 +1,156 @@
 # Contributing to a-novel services
 
 The shared vocabulary behind every backend service in the
-[`a-novel`](https://github.com/a-novel) organization — its terms, its architecture, and the reasons
-for both. Each service's own `CONTRIBUTING.md` builds on this; a concept defined here once means the
-same thing in every repository.
+[`a-novel`](https://github.com/a-novel) organization — its terms, its architecture, and the
+reasoning behind both. Each service specifies its own taxonomy in its `CONTRIBUTING.md`, a mere
+extension of this document.
 
-## Services and domains
+## Taxonomy
 
-A service is bounded by its **domain** — a cohesive area of the product, drawn by what the service
-is _about_ rather than by any technical concern. Identity, signing keys, and narrative state are
-each a domain; a service owns exactly one.
+This section defines the concepts every service shares. It will grow to cover the wider contributor
+process in time; for now it is the vocabulary.
 
-A service is not a single program but the **whole bounded environment** for its domain. It bundles
-the **APIs** that expose the domain, the background **jobs** that maintain it, and the
-**infrastructure** it depends on — a database, a cache, whatever the domain needs. Nothing outside
-reaches into that environment; other services speak only to its **APIs**.
+### Services and domains
 
-We grow the platform by **adding domains, not by splitting technical concerns**. Capabilities that
-belong to the same domain stay in one service, so the number of services tracks the breadth of the
-product rather than the depth of its plumbing. That is deliberately closer to **macro-services**
-than to micro- or nano-services: fewer, larger, domain-shaped environments are easier to reason
-about and evolve than a sprawl of tiny ones.
+A service is bounded by its **domain** — a cohesive area of the product. You draw a domain by the
+product capability it serves, not by the technology behind it: take the features that always change
+together and would make no sense apart, and that set is a domain. A service owns exactly one.
 
-## Interacting with a service
+A service is not a single program. It is the whole bounded **environment** for its domain: the
+**APIs** that expose it, the **jobs** that maintain it, and the **infrastructure** it runs on — a
+database, a cache, whatever the domain needs. Nothing reaches inside; other services speak only to
+its APIs.
+
+The goal is for a service to be **self-contained** — able to serve its features from end to end on
+its own. Owning a whole domain is what makes that possible. Split a domain across many small services
+instead, and you need a gateway or an orchestrator to stitch them back together, plus a sync bus
+(such as Kafka) to keep them aligned: one endpoint becomes a pipeline of services. Owning the domain
+keeps that endpoint a single, layered call. (A technical concern occasionally earns its own service,
+but that is the exception.)
+
+This is why our services sit closer to **macro-services** than to micro- or nano-services: a few
+larger services, each shaped to a domain, are simpler to build and change than many tiny ones.
+
+### Interacting with a service
 
 A service is reached through its **API** — the request/response contract it publishes for callers.
-The API _is_ what a service promises the outside world; everything below
+The API is what a service promises the outside world; everything below
 ([Inside a service](#inside-a-service-layers-and-contracts)) is how it keeps that promise. Which
-protocols carry the API is an [implementation detail](#implementation-details), covered separately.
+protocols carry the API is an [implementation detail](#implementation-details).
 
-- A **client package** is a thin wrapper around an API for one programming language — an "API with
-  benefits". It spares every caller from re-declaring the same API contract in its own repository,
-  and adds a little ergonomics on top. It is not a second contract: it is the same API, reached
-  through generated code instead of hand-built requests.
-- A **job** is a one-off run that acts _on_ a service rather than serving a request — applying a
-  schema change, seeding data, a scheduled maintenance pass. A job changes the service's state and
-  exits.
+- A **client package** wraps an API for one programming language — an "API with benefits". It bundles
+  the code to call the API (generated, or written by hand — the authentication service, for example,
+  ships a ready-made permission helper) so callers need not re-declare the contract themselves. It is
+  not a second contract; it is the same API, bundled.
+- A **job** is a one-off run that acts _on_ a service rather than serving a request — see
+  [State, data, and jobs](#state-data-and-jobs).
 
-## Inside a service: layers and contracts
+### Inside a service: layers and contracts
 
-A request enters through the API and is **dispatched down the service's layers in order**; each
-layer does its part and may dispatch further down, until — at the lowest layers — the request can
-reach _past_ the service to an external provider, then flow back up as the response.
+A request enters through the API and is **dispatched down the service's layers in order** — each
+layer does its part, then the response flows back up.
+
+Separately, a layer may reach _past_ the service to a dependency it calls (the core, for example,
+often sends mail). So a request's flow is not confined to the service; see
+[A service is also a caller](#a-service-is-also-a-caller).
 
 ```
-  caller ──API──►  layer ─►  layer ─►  layer ──►  external provider (itself an API)
-                   └─────────────  response flows back up  ─────────────┘
+  caller ──API──►  layer ─►  layer ─►  layer        (request down, response back up)
+                                  └──►  a dependency the service calls
 ```
 
-The **layer order is itself a contract**. Layers form a strict hierarchy: a layer answers only to
-the one directly above it and may call only the one directly below it — never sideways, never
-skipping. That single rule is what keeps the architecture predictable.
+The **layer order is itself a contract**. Layers form a hierarchy: a layer answers to the one above
+it and calls the one below it. Calling sideways is allowed but discouraged — the core sometimes does
+it to share logic — and skipping a layer is not.
 
-| Layer       | Role                                                                                                                                                                                |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Handler** | The **translation layer**: it turns an external contract — a serialized API call — into the internal logical types the layers below understand, and the result back. No rules.      |
-| **Core**    | The domain logic: the rules, validation, and orchestration that define the service. It depends only on the contract beneath it, never on how a request arrived or where data lives. |
-| **DAO**     | The data boundary: it speaks to whatever holds the service's data.                                                                                                                  |
+| Layer       | Role                                                                                                                                                 |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Handler** | The **translation layer**: it parses an incoming API call into the internal types the layers below use, and turns their answer back into a response. |
+| **Core**    | The **logical layer**: it turns a domain feature into running code, calling the layers below as dependencies.                                        |
+| **DAO**     | The boundary to an **external data source** — a database, a cache server. (Data the service keeps in memory is not its concern.)                     |
 
-Not everything is a layer: **configuration** and small local **helpers** sit beside the stack as
-support code (listed under [implementation details](#implementation-details)).
+Some modules sit outside the layer system — configuration and local helpers; see
+[implementation details](#implementation-details).
 
-### Contracts: external and internal
+#### Contracts: external and internal
 
-Layers — and services — communicate only through **contracts**, and the two kinds differ on purpose:
+Layers — and services — communicate only through **contracts**, of two kinds:
 
-- **External contracts** — a service's API — are written in **generic, serialized standards**
-  (OpenAPI, protobuf) built to travel over a network nobody controls. Portable, but verbose.
-- **Internal contracts** — between a service's own layers — are written in the **implementation
-  language** itself (Go interfaces and types). Efficient and precise, but meaningless outside the
-  service.
+- An **external contract** (a service's API) is **serialized** into a standard format (OpenAPI,
+  protobuf) so it can travel over a network nobody controls. A serialized value cannot be used as is:
+  the receiver must **parse** it into native types first.
+- An **internal contract** (between a service's layers) is expressed in the **implementation
+  language** directly — usable without parsing, but meaningless off the machine.
 
-A **model** is part of a contract, not merely a struct: it is to a layer what a request/response is
-to an API, expressed in the layer's own language. The **handler** is the layer that routinely
-**converts** between models — translation is its whole job; the other layers pass their models
-along plainly.
+Internal contracts are shaped by **models**: the equivalent of an API's request and response, but in
+the layer's own language.
 
-### A service is also a caller
+#### A service is also a caller
 
-The flow does not stop at the service boundary. A service is itself a **caller of other APIs**:
-Postgres is an API for talking to a database, an SMTP server an API for sending mail. So a request
-can **bleed past the boundary** to external providers — and not only from the DAO. The core may
-reach an SMTP provider directly; any layer may call out where its work requires it. Think of those
-providers as **internal APIs** the service indirectly proxies.
+A service does not only serve an API; it **calls** others. Those calls go to plain APIs too — another
+service (service to service), a database, a mail server. A service reaches each from whichever layer
+needs it: the DAO for its data, the core for mail, and so on.
 
-### Why the layering
+#### Layering rationale
 
-The lower a layer sits, the closer it is to hardware and to constraints the service does not control
-— a wire format, a database's quirks, a provider's API. Concentrating those constraints in tightly
-scoped low-level layers **frees the upper layers** — above all the logic-heavy core — to obey only
-the contract they chose. **Testing** is one beneficiary among many: because a layer depends only on
-a contract, a test can mock the layer below it — exercising core logic with no live provider and
-forcing rare conditions at will.
+The lower a layer sits, the closer it is to constraints the service does not control — a wire format,
+a database's quirks, a provider's API. Concentrating those constraints in small, low-level layers
+frees the layers above to follow only the contract they chose. **Testing** is one beneficiary:
+because a layer depends only on a contract, a test can replace the layer below it and exercise the
+upper layer with no live dependency.
 
-## State and data
+### State, data, and jobs
 
-**State** is any data that can be changed from _outside_ the service without touching its code — a
-configuration value, a feature flag, a power-user grant, a cached secret. It usually lives in the
-store behind the DAO, but it can extend past the DAO's reach (an in-memory cache is state too). The
-test is external patchability: if changing it needs a code change, it is not state.
+A service holds two kinds of information, and the difference is what lets us draw the boundary of a
+**job**.
 
-## Runnable units
+- **Data** is what a service is _about_: the domain records it stores and serves. The service works
+  on its data through the API, while serving requests. More data does not change how the service
+  behaves — it is more of the same.
+- **State** is the smaller set of facts that decide _how_ a service behaves and what it is capable
+  of: configuration, a feature flag, a signing key, an elevated user, the schema version. State is
+  set deliberately and changes rarely; it may sit in the database next to the data, or in memory.
+  Changing data is the service doing its work; changing state changes the work itself.
+
+Both can change two ways. **In-band**, an API request changes them while serving a caller — most
+data, and some state, moves this way. **Out-of-band**, a **job** changes them with no caller
+involved.
+
+A **job** is an operation that no request drives. An operator or a schedule triggers it; it runs
+once, to completion, and exits. Its role is to **establish or maintain the ground a service runs
+on** — applying a schema **migration**, seeding or correcting state, rotating keys, a scheduled
+cleanup. That is also its boundary: a job never serves a request and never has a caller waiting on
+its result. If the work answers to a caller, it belongs in the API, not a job.
+
+### Runnable units
 
 A service compiles to several small binaries; each is a **target** — the unit built, started, and
-supervised on its own. A target is a **server** while it stays up to serve an API, or a **job** when
-it runs once and exits. The split is by lifecycle, not a fixed catalogue.
+supervised on its own. A target is a **server** while it stays up to serve an API, or a **job** (see
+above) when it runs once and exits.
 
-## Implementation details
+### Implementation details
 
-The concepts above are independent of the tools that implement them today; the specifics live here,
-so adopting a new one updates this section rather than the vocabulary.
+The concepts above are independent of the tools that implement them today. The current choices, and
+why each:
 
-- **APIs**: **OpenAPI / REST** for the public API, **protobuf / gRPC** for the internal one. The
-  proto definition generates the gRPC server and its client; the store schema the DAO depends on
-  evolves through ordered **migrations**.
-- **Data**: **Postgres** behind the DAO, through the **bun** query builder.
-- **Observability**: **OpenTelemetry** tracing, threaded through every layer.
+- **[Go](https://go.dev/)** is the implementation language; the internal contracts between layers are
+  Go interfaces and types.
+- **[OpenAPI](https://www.openapis.org/)** describes the public REST API; **[gRPC](https://grpc.io/)**
+  with **[protobuf](https://protobuf.dev/)** the internal one — the proto file generates the gRPC
+  server and its client.
+- **[Postgres](https://www.postgresql.org/)**, through the **[bun](https://bun.uptrace.dev/)** query
+  builder, backs the DAO; schema changes ship as ordered **migrations**.
+- **[YAML](https://yaml.org/)** carries configuration.
+- **[OpenTelemetry](https://opentelemetry.io/)** traces every layer.
+- Services publish as container images to the
+  **[GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)**
+  for orchestration.
 
 ## External resources
 
 - [Developer onboarding guide](https://github.com/a-novel-kit/.github/blob/master/README.md) — the
   toolchain and the `a-novel` CLI.
 - [Libraries, tooling & platform concepts](https://github.com/a-novel-kit/.github/blob/master/CONTRIBUTING.md)
-  — the two-org model, repository kinds, the shared libraries, and the CLI.
+  — the two-org model, repository kinds, libraries, and the CLI.
 - [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
   — the layering these services follow.
-- [Go](https://go.dev/) — the implementation language; the inter-layer interface contracts are
-  written in it.
-- [OpenAPI](https://www.openapis.org/) and [gRPC](https://grpc.io/) — the API standards (public and
-  internal).
-- [YAML](https://yaml.org/) — service configuration.
-- [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
-  — where service images publish for container orchestration.
