@@ -49,6 +49,32 @@ protocols carry the API is an [implementation detail](#implementation-details).
 - A **job** is a one-off run that acts _on_ a service rather than serving a request — see
   [Jobs](#jobs).
 
+### Authentication and authorization
+
+Most APIs are not open: a caller must prove **who it is** (authentication) and be allowed the
+operation it asks for (authorization). The platform solves both once, with a small shared backbone,
+rather than re-solving them per service.
+
+- A **session** is a pair of JSON Web Tokens. A short-lived **access token** authorizes individual
+  API calls; a long-lived **refresh token** mints a new pair when the access token expires, so a
+  caller authenticates once and rolls its session without re-sending credentials. The
+  **authentication service** owns identities and issues both.
+- **Signing is centralized.** One service holds the keys and signs and verifies every token; no
+  other service — not even the one issuing them — keeps a signing key. That signer rotates its keys
+  on a schedule and publishes the **public** half, so a token stays verifiable across a rotation
+  while the private key never leaves it.
+- **Authorization is local.** A token carries the caller's **role**, which maps to a set of
+  **permissions**. A service does not call the authentication service on every request: it mounts
+  that service's [client package](#interacting-with-a-service) as middleware, verifies the token
+  against the signer's published public keys, and checks the route's required permission itself. A
+  network round-trip happens only to refresh a session or change an identity — never just to
+  authorize a call.
+
+So the authentication service is reached as an [internal API](#services-and-domains) and consumed as
+a client package, and the signer is another internal API behind it. A service's own `CONTRIBUTING.md`
+records how it _uses_ this backbone — which permission guards which route — not how the backbone
+works.
+
 ### Inside a service: layers and contracts
 
 A request enters through the API and is **dispatched down the service's layers in order**: each layer
