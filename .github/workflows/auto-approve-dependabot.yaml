@@ -14,7 +14,7 @@ jobs:
     if: ${{ github.event.pull_request.user.login == vars.DEPENDENCY_BOT_LOGIN || github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v7
-      - uses: a-novel-kit/workflows/generic-actions/approve-bot@v1.3.2
+      - uses: a-novel-kit/workflows/generic-actions/approve-bot@v1.4.0
         with:
           pull_request: ${{ github.event.pull_request.html_url }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
