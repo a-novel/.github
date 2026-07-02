@@ -1,0 +1,33 @@
+# The per-org board reconcile sweep — the fail-safe that repairs board state the
+# event-driven deriver can miss (dropped events, cross-repo staleness). One copy per
+# org, hosted here like bot-comment.yaml.
+#
+# It currently runs the epic rollup read-only (dry_run). The task-status drift and the
+# merge-gate re-post passes are added once derive-status/merge-gate take an explicit
+# repo input — they key off the triggering event's repo today, so the sweep (running
+# here in .github) can't yet invoke them for a PR in another repo.
+name: reconcile-board
+
+on:
+  schedule:
+    - cron: "*/15 * * * *" # every 15 min; the fail-safe, not the primary path
+  workflow_dispatch:
+
+# One reconcile at a time per board — the sweep is the sole writer of epic rollups.
+concurrency:
+  group: reconcile-board
+  cancel-in-progress: false
+
+jobs:
+  rollup:
+    runs-on: ubuntu-latest
+    # rollup-board mints its own [Agent] org-Projects token; the job itself needs none.
+    permissions: {}
+    steps:
+      - uses: a-novel-kit/workflows/generic-actions/rollup-board@v1.6.0
+        with:
+          client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+          app_private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+          project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
+          # Read-only first: watch the run logs across a few cycles, then set "false".
+          dry_run: "true"
