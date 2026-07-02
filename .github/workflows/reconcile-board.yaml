@@ -5,9 +5,9 @@
 #   - rederive: re-derive every open Task PR's board Status, catching dropped derive events.
 #   - regate:   re-post merge-gate on every open epic-member PR, since a sibling changing
 #               in another repo emits no event to it.
-# The per-PR passes matrix over the org's open PRs (enumerated first) and call the v1.7.0
-# actions cross-repo via their repo inputs. All board mutations still go through the same
-# single-writer actions.
+# The per-PR passes matrix over the org's open PRs (enumerated first, paginated) and call
+# the v1.7.0 actions cross-repo via their repo inputs. All board mutations still go through
+# the same single-writer actions.
 name: reconcile-board
 
 on:
@@ -33,7 +33,7 @@ jobs:
           # Read-only first: watch the logs across a few cycles, then set "false".
           dry_run: "true"
 
-  # Enumerate the org's open PRs → matrices for the two per-PR fail-safe passes.
+  # Enumerate ALL the org's open PRs (paginated) → matrices for the two per-PR passes.
   enumerate:
     runs-on: ubuntu-latest
     permissions: {}
@@ -57,17 +57,28 @@ jobs:
           ORG: ${{ github.repository_owner }}
         run: |
           set -euo pipefail
-          q='query($q:String!){ search(query:$q, type:ISSUE, first:100){
+          q='query($q:String!,$cursor:String){ search(query:$q, type:ISSUE, first:100, after:$cursor){
+            pageInfo{ hasNextPage endCursor }
             nodes{ ... on PullRequest{ number headRefOid repository{ name }
-              closingIssuesReferences(first:1){ nodes{ parent{ number } } } } } } }'
-          data=$(gh api graphql -f query="$q" -F q="org:$ORG is:pr is:open")
-          # tasks   = open PRs that close an issue → re-derive their Status.
-          # epic_prs = those whose Task has a parent epic → re-post merge-gate.
-          tasks=$(echo "$data" | jq -c '[.data.search.nodes[]
+              closingIssuesReferences(first:5){ nodes{ parent{ number } } } } } } }'
+          # Page every open PR — a fail-safe must not stop at the first 100.
+          nodes='[]'
+          cursor=""
+          while :; do
+            args=(-F q="org:$ORG is:pr is:open")
+            [ -n "$cursor" ] && args+=(-F cursor="$cursor")
+            page=$(gh api graphql -f query="$q" "${args[@]}")
+            nodes=$(jq -cn --argjson a "$nodes" --argjson b "$(echo "$page" | jq -c '.data.search.nodes')" '$a + $b')
+            [ "$(echo "$page" | jq -r '.data.search.pageInfo.hasNextPage')" = "true" ] || break
+            cursor=$(echo "$page" | jq -r '.data.search.pageInfo.endCursor')
+          done
+          # tasks    = open PRs that close an issue → re-derive their Status.
+          # epic_prs = those where ANY closing issue has a parent epic → re-post merge-gate.
+          tasks=$(echo "$nodes" | jq -c '[.[]
             | select(.number and (.closingIssuesReferences.nodes | length > 0))
             | {repo: .repository.name, number, sha: .headRefOid}]')
-          epic_prs=$(echo "$data" | jq -c '[.data.search.nodes[]
-            | select(.number and .closingIssuesReferences.nodes[0].parent)
+          epic_prs=$(echo "$nodes" | jq -c '[.[]
+            | select(.number and (([.closingIssuesReferences.nodes[].parent] | map(select(. != null)) | length) > 0))
             | {repo: .repository.name, number, sha: .headRefOid}]')
           {
             echo "tasks=$tasks"
@@ -92,6 +103,8 @@ jobs:
           client-id: ${{ vars.AGENT_BOT_CLIENT_ID }}
           private-key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
+          # This run only reads one PR — scope the token to that repo, not the org.
+          repositories: ${{ matrix.pr.repo }}
           permission-contents: read
           permission-issues: read
           permission-pull-requests: read
@@ -105,7 +118,8 @@ jobs:
           github_token: ${{ steps.token.outputs.token }}
 
   # Staleness fail-safe: re-post merge-gate on each open epic-member PR — a sibling
-  # changing in another repo emits no event to it.
+  # changing in another repo emits no event to it. merge-gate mints its own org-wide
+  # token (it walks siblings across repos), so no token is scoped here.
   regate:
     needs: enumerate
     if: ${{ needs.enumerate.outputs.epic_prs != '[]' }}
