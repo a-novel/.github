@@ -1,19 +1,21 @@
 # The per-org board reconcile sweep — the fail-safe that repairs board state the
-# event-driven deriver can miss (dropped events, cross-repo staleness). One copy per
-# org, hosted here like bot-comment.yaml.
-#
-# It currently runs the epic rollup read-only (dry_run). The task-status drift and the
-# merge-gate re-post passes are added once derive-status/merge-gate take an explicit
-# repo input — they key off the triggering event's repo today, so the sweep (running
-# here in .github) can't yet invoke them for a PR in another repo.
+# event-driven automation can miss. One copy per org, hosted here like bot-comment.yaml.
+# Three passes on a 15-min cron / manual dispatch:
+#   - rollup:   roll each epic's Status + Start date up from its children (read-only for now).
+#   - rederive: re-derive every open Task PR's board Status, catching dropped derive events.
+#   - regate:   re-post merge-gate on every open epic-member PR, since a sibling changing
+#               in another repo emits no event to it.
+# The per-PR passes matrix over the org's open PRs (enumerated first) and call the v1.7.0
+# actions cross-repo via their repo inputs. All board mutations still go through the same
+# single-writer actions.
 name: reconcile-board
 
 on:
   schedule:
-    - cron: "*/15 * * * *" # every 15 min; the fail-safe, not the primary path
+    - cron: "*/15 * * * *" # the fail-safe, not the primary path
   workflow_dispatch:
 
-# One reconcile at a time per board — the sweep is the sole writer of epic rollups.
+# One reconcile at a time per board.
 concurrency:
   group: reconcile-board
   cancel-in-progress: false
@@ -21,13 +23,103 @@ concurrency:
 jobs:
   rollup:
     runs-on: ubuntu-latest
-    # rollup-board mints its own [Agent] org-Projects token; the job itself needs none.
     permissions: {}
     steps:
-      - uses: a-novel-kit/workflows/generic-actions/rollup-board@v1.6.0
+      - uses: a-novel-kit/workflows/generic-actions/rollup-board@v1.7.0
         with:
           client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
           app_private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
           project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
-          # Read-only first: watch the run logs across a few cycles, then set "false".
+          # Read-only first: watch the logs across a few cycles, then set "false".
           dry_run: "true"
+
+  # Enumerate the org's open PRs → matrices for the two per-PR fail-safe passes.
+  enumerate:
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      tasks: ${{ steps.list.outputs.tasks }}
+      epic_prs: ${{ steps.list.outputs.epic_prs }}
+    steps:
+      - name: Mint read token
+        id: token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-issues: read
+          permission-pull-requests: read
+      - name: List open PRs
+        id: list
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          ORG: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+          q='query($q:String!){ search(query:$q, type:ISSUE, first:100){
+            nodes{ ... on PullRequest{ number headRefOid repository{ name }
+              closingIssuesReferences(first:1){ nodes{ parent{ number } } } } } } }'
+          data=$(gh api graphql -f query="$q" -F q="org:$ORG is:pr is:open")
+          # tasks   = open PRs that close an issue → re-derive their Status.
+          # epic_prs = those whose Task has a parent epic → re-post merge-gate.
+          tasks=$(echo "$data" | jq -c '[.data.search.nodes[]
+            | select(.number and (.closingIssuesReferences.nodes | length > 0))
+            | {repo: .repository.name, number, sha: .headRefOid}]')
+          epic_prs=$(echo "$data" | jq -c '[.data.search.nodes[]
+            | select(.number and .closingIssuesReferences.nodes[0].parent)
+            | {repo: .repository.name, number, sha: .headRefOid}]')
+          {
+            echo "tasks=$tasks"
+            echo "epic_prs=$epic_prs"
+          } >> "$GITHUB_OUTPUT"
+
+  # Drift fail-safe: re-derive each open Task PR's Status (catches dropped derive events).
+  rederive:
+    needs: enumerate
+    if: ${{ needs.enumerate.outputs.tasks != '[]' }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    strategy:
+      fail-fast: false
+      matrix:
+        pr: ${{ fromJSON(needs.enumerate.outputs.tasks) }}
+    steps:
+      - name: Mint read token
+        id: token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-contents: read
+          permission-issues: read
+          permission-pull-requests: read
+      - uses: a-novel-kit/workflows/generic-actions/derive-status@v1.7.0
+        with:
+          client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+          app_private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+          project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
+          repo: ${{ matrix.pr.repo }}
+          pull_request_number: ${{ matrix.pr.number }}
+          github_token: ${{ steps.token.outputs.token }}
+
+  # Staleness fail-safe: re-post merge-gate on each open epic-member PR — a sibling
+  # changing in another repo emits no event to it.
+  regate:
+    needs: enumerate
+    if: ${{ needs.enumerate.outputs.epic_prs != '[]' }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    strategy:
+      fail-fast: false
+      matrix:
+        pr: ${{ fromJSON(needs.enumerate.outputs.epic_prs) }}
+    steps:
+      - uses: a-novel-kit/workflows/generic-actions/merge-gate@v1.7.0
+        with:
+          client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+          app_private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+          repo: ${{ matrix.pr.repo }}
+          pull_request_number: ${{ matrix.pr.number }}
+          head_sha: ${{ matrix.pr.sha }}
