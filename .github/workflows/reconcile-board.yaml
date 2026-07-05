@@ -19,5 +19,8 @@ jobs:
     with:
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+      # Enforce the partial-landing detector: the sweep posts epic-freeze check-runs (success on
+      # healthy + standalone heads, failure on a partial landing) instead of only logging.
+      detect_dry_run: "false"
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
