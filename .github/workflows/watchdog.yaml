@@ -1,0 +1,32 @@
+# Per-org staleness watchdog — a thin scheduled caller of the shared reusable workflow in
+# a-novel-kit/workflows. The detection (stale required checks, stuck hotfix runs, and the fail-safe
+# heartbeat) lives there; this file owns only the schedule, the concurrency, and the per-org board id.
+name: watchdog
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # the backstop cadence (stale-check threshold is 30m)
+  workflow_dispatch:
+
+# One watchdog at a time.
+concurrency:
+  group: watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    uses: a-novel-kit/workflows/.github/workflows/watchdog.yaml@v1.16.1
+    with:
+      client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+      project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
+      # SEV1/SEV2 @mention for the escalation ticket + the Discord page. Discord pings a role only in
+      # the `<@&ROLE_ID>` form, so SEV1_MENTION must be that wrapped value, not a bare id.
+      mention: ${{ vars.SEV1_MENTION }}
+      # Heartbeat: page SEV1 if either scheduled fail-safe stops running (mutual dead-man's-switch).
+      heartbeat_workflows: "reconcile-board.yaml,watchdog.yaml"
+      # Start dry-run: detect + log, no real tickets/pages, until a cycle has been watched. Flip to
+      # "false" to arm it (like the reconcile-board detector's staged rollout).
+      dry_run: "true"
+    secrets:
+      private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+      push_webhook: ${{ secrets.ESCALATE_PUSH_WEBHOOK }}
