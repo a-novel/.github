@@ -1,0 +1,39 @@
+# Per-org daily fine-grained-PAT expiry digest → the token-expiry Discord channel. Thin scheduled
+# caller of the shared reusable workflow in a-novel-kit/workflows; the enumeration + digest live
+# there, this owns only the schedule + concurrency. The App token is auto-scoped to THIS org, so each
+# org's caller sweeps its own PATs.
+name: token-expiry
+
+on:
+  schedule:
+    - cron: "0 8 * * *" # daily 08:00 UTC
+  workflow_dispatch:
+    inputs:
+      test_run:
+        description: "Test run: post to token-tracker for EVERY PAT (admin only), ignoring the milestone policy."
+        type: boolean
+        default: false
+
+# One sweep at a time.
+concurrency:
+  group: token-expiry
+  cancel-in-progress: false
+
+jobs:
+  token-expiry:
+    # TODO: bump to the release tag (e.g. @v1.17.0) once a-novel-kit/workflows ships this reusable
+    # workflow; pinned to the feature branch for pre-release testing.
+    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@feat/watchdog/bypass-audit
+    with:
+      client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+      # Start dry-run: enumerate + log the pings that WOULD fire, no Discord post, until a cycle is
+      # seen. Flip to "false" to arm the real daily pings (watchdog / reconcile-board staged-rollout
+      # convention). A UI test_run always posts for real regardless of this.
+      dry_run: "true"
+      # UI-only: post for every PAT, admin-only, ignoring the milestone policy — an end-to-end drill.
+      test_run: ${{ inputs.test_run || false }}
+    secrets:
+      private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+      webhook: ${{ secrets.TOKEN_EXPIRY_WEBHOOK }}
+      # All pings go to this admin for now; per-owner pinging arrives with the Bitwarden resolver (#104).
+      default_mention: ${{ secrets.TOKEN_EXPIRY_ADMIN }}
