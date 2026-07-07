@@ -22,5 +22,9 @@ jobs:
       # Enforce the partial-landing detector: the sweep posts epic-freeze check-runs (success on
       # healthy + standalone heads, failure on a partial landing) instead of only logging.
       detect_dry_run: "false"
+      # Board lifecycle live (validated dry 2026-07-07): roll each Epic/Initiative's Status up from
+      # its children, and archive+close resolved "Applied" meta work org-wide.
+      rollup_dry_run: "false"
+      archive_dry_run: "false"
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
