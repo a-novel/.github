@@ -1,7 +1,7 @@
 # Contributing to a-novel
 
-`a-novel` is the **product** — the backend services and platforms that make up the application. It is
-built on [`a-novel-kit`](https://github.com/a-novel-kit), the platform of shared libraries and tooling.
+`a-novel` is the **product**: the backend services and platforms that make up the application. It is built
+on [`a-novel-kit`](https://github.com/a-novel-kit), the platform of shared libraries and tooling.
 This is the entry point to the contributor documentation; each topic has its own page.
 
 ## Contents
@@ -9,8 +9,8 @@ This is the entry point to the contributor documentation; each topic has its own
 - **[Taxonomy](docs/taxonomy.md)** — the product vocabulary: the services (and later platforms) that
   make up the application, their APIs, the layers and contracts inside one, state, and jobs.
 - **[The board lifecycle](https://github.com/a-novel-kit/.github/blob/master/docs/board-lifecycle.md)** —
-  how work is planned, tracked, landed, and released on the board, and how to handle the edge cases.
-  Shared with `a-novel-kit` — both organizations run the identical process, so it lives there.
+  how work is planned, tracked, landed, and released on the board, and how to handle the edge cases. Both
+  organizations run the identical process, so this page lives in `a-novel-kit`.
 - **[Platform taxonomy](https://github.com/a-novel-kit/.github/blob/master/docs/taxonomy.md)** — the
   libraries and tooling the product is built on (kit-owned).
 
