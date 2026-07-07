@@ -6,8 +6,8 @@ This is the entry point to the contributor documentation; each topic has its own
 
 ## Contents
 
-- **[Service architecture](docs/services.md)** — the service vocabulary: isolated services and their
-  APIs, the layers and contracts inside one, state, and jobs.
+- **[Taxonomy](docs/taxonomy.md)** — the product vocabulary: the services (and later platforms) that
+  make up the application, their APIs, the layers and contracts inside one, state, and jobs.
 - **[The board lifecycle](https://github.com/a-novel-kit/.github/blob/master/docs/board-lifecycle.md)** —
   how work is planned, tracked, landed, and released on the board, and how to handle the edge cases.
   Shared with `a-novel-kit` — both organizations run the identical process, so it lives there.

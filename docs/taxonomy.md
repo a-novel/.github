@@ -1,16 +1,16 @@
-# Service architecture
+# Taxonomy
 
-## Taxonomy
-
-The shared vocabulary behind every backend service in the
-[`a-novel`](https://github.com/a-novel) organization — its terms, its architecture, and the
-reasoning behind both. Each service specifies its own taxonomy in its `CONTRIBUTING.md`, which acts
-as an extension of this document.
+The shared vocabulary behind the [`a-novel`](https://github.com/a-novel) organization — the
+**product**: its terms, its architecture, and the reasoning behind both. It covers the **services**
+that make up the backend today; the client-facing **platforms** will join it as they land. The product
+runs on [`a-novel-kit`](https://github.com/a-novel-kit), the shared platform of libraries and tooling it
+depends on ([platform taxonomy](https://github.com/a-novel-kit/.github/blob/master/docs/taxonomy.md)).
+Each repository extends this document with its own `CONTRIBUTING.md`.
 
 The backend is a set of **isolated services**. Each owns one slice of the product and runs on its
 own; client code reaches them only through their **APIs**.
 
-### Services and domains
+## Services and domains
 
 A service is bounded by its **domain** — a cohesive area of the product. You draw a domain by the
 product capability it serves, not by the technology behind it: take the features that always change
@@ -35,7 +35,7 @@ A **technical concern** earns its own service only when it is large enough _and_
 several services. Such a service usually exposes **internal APIs** only: it exists to be called by
 other services, not by external clients.
 
-### Interacting with a service
+## Interacting with a service
 
 A service is reached through its **API** — the request/response contract it publishes for callers.
 The API is what a service promises the outside world; everything below
@@ -49,7 +49,7 @@ protocols carry the API is an [implementation detail](#implementation-details).
 - A **job** is a one-off run that acts _on_ a service rather than serving a request — see
   [Jobs](#jobs).
 
-### Authentication and authorization
+## Authentication and authorization
 
 Most APIs are not open: a caller must prove **who it is** (authentication) and be allowed the
 operation it asks for (authorization). The platform solves both once, with a small shared backbone,
@@ -75,7 +75,7 @@ a client package, and the signer is another internal API behind it. A service's 
 records how it _uses_ this backbone — which permission guards which route — not how the backbone
 works.
 
-### Inside a service: layers and contracts
+## Inside a service: layers and contracts
 
 A request enters through the API and is **dispatched down the service's layers in order**: each layer
 does its part, then the response flows back up.
@@ -97,7 +97,7 @@ share logic — the core does this often. A layer is never skipped.
 Some modules sit outside the layer system — configuration and local helpers; see
 [implementation details](#implementation-details).
 
-#### Contracts: external and internal
+### Contracts: external and internal
 
 Layers — and services — communicate only through **contracts**, of two kinds:
 
@@ -110,7 +110,7 @@ Layers — and services — communicate only through **contracts**, of two kinds
 Internal contracts are shaped by **models**: the equivalent of an API's request and response, but in
 the layer's own language.
 
-#### Layering rationale
+### Layering rationale
 
 Layers separate concerns by how controllable they are. A **low** layer holds simple logic but little
 control over its surroundings: it sits against the uncontrolled outside — a wire format, a database,
@@ -119,14 +119,14 @@ controls its whole environment in a test. Layering balances the two, leaving eac
 the way that suits it: the low ones for their narrow logic, the high ones with everything below them
 mocked.
 
-#### A service is also a caller
+### A service is also a caller
 
 A service does not only serve an API — it **calls** others. Reaching an external dependency is **not
 tied to a layer**: it is not part of the hierarchy, so any layer may do it where its work needs it,
 within that layer's boundaries. Each call goes to another API — a sibling service, a database, a mail
 server, any external dependency — so a request's work carries on past the service's own boundary.
 
-### State and data
+## State and data
 
 A service holds two kinds of information.
 
@@ -137,7 +137,7 @@ A service holds two kinds of information.
   in the database next to the data, or in memory. Changing data is the service doing its work;
   changing state changes the work itself.
 
-### Jobs
+## Jobs
 
 A **job** is how a service is changed **out-of-band** — outside the request flow. Where an API call
 changes data or state while serving a caller, a job does so with no caller involved:
@@ -151,7 +151,7 @@ changes data or state while serving a caller, a job does so with no caller invol
 Its boundary follows: a job never serves a request and never has a caller waiting on its result. If
 the work answers to a caller, it belongs in the API, not a job.
 
-### Runnable units
+## Runnable units
 
 A service compiles to several small binaries, each a **target** — the unit built, started, and
 supervised on its own. A target is either:
@@ -159,7 +159,7 @@ supervised on its own. A target is either:
 - a **server**, while it stays up to serve an API; or
 - a **job** (see above), which runs once and exits.
 
-### Implementation details
+## Implementation details
 
 The concepts above are independent of the tools that implement them today. The current choices, and
 why each:
@@ -177,7 +177,7 @@ why each:
   **[GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)**
   for orchestration.
 
-#### Code structure
+### Code structure
 
 The layers above map to the same Go packages in every service, so a contributor moving between them
 finds the same shape — only the domain resource differs:
