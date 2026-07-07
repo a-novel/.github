@@ -22,7 +22,10 @@ You can delete this comment block once your PR is ready.
 ## Linked issues
 
 <!-- Use "Closes #123" to auto-close on merge, or "Refs #123" to link without closing.
-     If there is no related issue, write "None" and briefly explain the motivation. -->
+     If there is no related issue, write "None" and briefly explain the motivation.
+     Implementing a PLANNING issue (Epic/Feature/Task on the org board)? It lives in the org
+     .github repo — close it CROSS-REPO: "Closes a-novel/.github#123" (a bare "#123" links
+     nothing, so the issue never advances on the board). -->
 
 Closes #
 
