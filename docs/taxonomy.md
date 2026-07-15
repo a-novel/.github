@@ -21,7 +21,7 @@ that expose it, the **jobs** that maintain it, and the **infrastructure** it run
 a cache, or whatever the domain needs. The only way in is the API; nothing else reaches inside.
 
 A service should be **self-contained**, able to serve its features from end to end on its own. Owning a
-whole domain is what makes that possible.
+whole domain makes that possible.
 
 > Split a domain across many small services instead, and you need a gateway or an orchestrator to stitch
 > them back together, plus a sync bus (such as Kafka) to keep them aligned: one endpoint becomes a
@@ -37,9 +37,9 @@ not by external clients.
 ## Interacting with a service
 
 A service is reached through its **API**, the request/response contract it publishes for callers. The API
-is what a service promises the outside world; everything below
-([Inside a service](#inside-a-service-layers-and-contracts)) is how it keeps that promise. Which protocols
-carry the API is an [implementation detail](#implementation-details).
+is the service's promise to the outside world; everything below
+([Inside a service](#inside-a-service-layers-and-contracts)) is how it keeps that promise. The protocols
+that carry the API are an [implementation detail](#implementation-details).
 
 - A **client package** wraps an API for one programming language, an "API with benefits." It bundles the
   code to call the API, generated or written by hand, so callers need not re-declare the contract
@@ -80,15 +80,15 @@ its part, then the response flows back up.
   caller ──► API ──► layer ──► layer ──► layer        request down, response back up
 ```
 
-The **layer order is itself a contract**. Layers form a hierarchy: a layer answers to the one above it and
-calls the one below it. Within a layer, components may also call each other **sideways** to share logic,
-which the core does often. A layer is never skipped.
+The **layer order** is itself fixed. Layers form a hierarchy: a layer answers to the one above it and
+calls the one below it. Within a layer, components may also call each other **sideways** to share logic;
+the core does so often. A layer is never skipped.
 
-| Layer       | Role                                                                                                                                                                        |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Handler** | The **translation layer**: it parses an incoming, serialized API call into the internal types the layers below use, and turns their answer back into a serialized response. |
-| **Core**    | The **logical layer**: it turns a domain feature into running code, calling the layers below as dependencies.                                                               |
-| **DAO**     | The boundary to an **external storage source**: a database, a cache server, any store that lives outside the program's own memory.                                          |
+| Layer       | Role                                                                                                                                                                       |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Handler** | The **translation layer**: it parses an incoming, serialized API call into the internal types the layers below use and turns their answer back into a serialized response. |
+| **Core**    | The **logical layer**: it turns a domain feature into running code, calling the layers below as dependencies.                                                              |
+| **DAO**     | The boundary to an **external storage source**: a database, a cache server, or any store that lives outside the program's own memory.                                      |
 
 Some modules sit outside the layer system, like configuration and local helpers; see
 [implementation details](#implementation-details).
@@ -109,15 +109,15 @@ layer's own language.
 ### Layering rationale
 
 Layers separate concerns by how controllable they are. A **low** layer holds simple logic but little
-control over its surroundings: it sits against the uncontrolled outside, a wire format, a database, a
-provider. A **high** layer holds the complex logic, but can **mock** the layers beneath it, and so
+control over its surroundings: it sits against the uncontrolled outside, a wire format, a database, or a
+provider. A **high** layer holds the complex logic but can **mock** the layers beneath it, and so
 controls its whole environment in a test. Layering balances the two, leaving each layer testable in the way
 that suits it: the low ones for their narrow logic, the high ones with everything below them mocked.
 
 ### A service is also a caller
 
-A service does not only serve an API; it also **calls** others. Reaching an external dependency is **not
-tied to a layer**: it is not part of the hierarchy, so any layer may do it where its work needs it, within
+A service does not only serve an API; it also **calls** others. Reaching an external dependency **sits
+outside the layer hierarchy**: any layer may do it where its work needs it, within
 that layer's boundaries. Each call goes to another API, whether a sibling service, a database, or a mail
 server, so a request's work carries on past the service's own boundary.
 
@@ -128,7 +128,7 @@ A service holds two kinds of information.
 - **Data** is what a service is _about_: the domain records it stores and serves. The service works on its
   data while serving requests; more data does not change how it behaves.
 - **State** is the smaller set of facts that decide _how_ a service behaves and what it is capable of:
-  configuration, a feature flag, a signing key, an elevated user, the schema version. It may sit in the
+  configuration, a feature flag, a signing key, an elevated user, or the schema version. It may sit in the
   database next to the data, or in memory. Changing data is the service doing its work; changing state
   changes the work itself.
 
@@ -140,7 +140,7 @@ data or state while serving a caller, a job does so with no caller involved:
 - Its call is **intentional**: an operator or a schedule triggers it, not an external actor's request.
 - It runs **once**, to completion, and exits.
 - Its role is to **establish or maintain the ground a service runs on**: applying a schema **migration**,
-  seeding or correcting state, rotating keys, running a scheduled cleanup.
+  seeding or correcting state, rotating keys, or running a scheduled cleanup.
 
 Its boundary follows: a job never serves a request and never has a caller waiting on its result. If the
 work answers to a caller, it belongs in the API, not a job.
@@ -181,10 +181,11 @@ the same shape; only the domain resource differs:
 - **`internal/core`** — the core layer; one file per feature. Each operation **owns the interface of the
   dependency it calls**: a `<Resource>Dao` Go interface, held in a `dao` field, while `internal/dao`
   provides the implementation. The interface lives with the **caller**, not the callee: the core depends on
-  a contract it defines, never on the database package directly. This is what lets a high layer mock
+  a contract it defines, never on the database package directly. Defining the interface on the caller's
+  side lets a high layer mock
   everything beneath it (see [Layering rationale](#layering-rationale)).
 - **`internal/handlers`** — the handler layer; `http.*` files serve the REST API, `grpc.*` the gRPC one.
-- **`cmd/<target>`** — one `main.go` per [runnable target](#runnable-units): a server or a job.
+- **`cmd/<target>`** — one `main.go` per [target](#runnable-units): a server or a job.
 - **`pkg/go`, `pkg/js`** — the [client packages](#interacting-with-a-service), one per language.
 
 Configuration and local helpers sit outside the layers. The Go interfaces between layers have their test
