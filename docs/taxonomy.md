@@ -188,7 +188,7 @@ the same shape; only the domain resource differs:
 - **`cmd/<target>`** — one `main.go` per [target](#runnable-units): a server or a job.
 - **`pkg/go`, `pkg/js`** — the [client packages](#interacting-with-a-service), one per language.
 
-Configuration and local helpers sit outside the layers. The Go interfaces between layers have their test
+The Go interfaces between layers have their test
 mocks **generated**, not written by hand. A service's own `CONTRIBUTING.md` only maps these packages to its
 concrete resource and files; it does not restate the model.
 
