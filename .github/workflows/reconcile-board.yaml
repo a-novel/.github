@@ -26,11 +26,5 @@ jobs:
       # its children, and archive+close resolved "Applied" meta work org-wide.
       rollup_dry_run: "false"
       archive_dry_run: "false"
-      # TEMPORARY — revert once the capture has been eyeballed on a live Epic.
-      # The sweep's merge-gate logs the activation snapshot it would capture and leaves the Epic body
-      # alone. While this is on, no snapshot ever freezes: a pending marker promotes on a later pass,
-      # and the sweep is usually the only thing that runs on a set that is ready and waiting. The
-      # Epic then lands on live label membership, so a member de-labelled mid-landing is lost.
-      regate_snapshot_dry_run: "true"
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
