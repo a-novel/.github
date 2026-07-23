@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   token-expiry:
-    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.25.0
+    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.25.1
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       # Start dry-run: enumerate + log the pings that WOULD fire, no Discord post, until a cycle is
