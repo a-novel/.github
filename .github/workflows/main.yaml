@@ -64,4 +64,3 @@ jobs:
         with:
           # renovate: datasource=docker depName=ghcr.io/zizmorcore/zizmor
           version: "1.28.0"
-
