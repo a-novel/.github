@@ -15,6 +15,9 @@ concurrency:
 
 jobs:
   watchdog:
+    # The callee mints its own App token and declares permissions: {}; the
+    # caller sets the ceiling, so it must not hand down the repo default.
+    permissions: {}
     uses: a-novel-kit/workflows/.github/workflows/watchdog.yaml@v1.26.1
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
