@@ -7,6 +7,13 @@ on:
     branches:
       - "**"
 
+# Cancel an in-progress lint run when a newer commit lands on the same ref — the superseded run's
+# result is never useful. Safe here because this workflow only lints, with no release or deploy
+# work that has to run to completion. Mirrors a-novel-kit/.github.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint-node:
     runs-on: ubuntu-latest
