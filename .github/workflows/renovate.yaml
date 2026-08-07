@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: a-novel-kit/workflows/generic-actions/renovate@v1.28.1
         with:
-          allowed_commands: '["^go mod tidy && go generate .*", "^go mod tidy && go tool .*", "^go get -u .*", "^pnpm i --frozen-lockfile$"]'
+          allowed_commands: '["^go mod tidy && go generate .*", "^go mod tidy && go tool .*", "^go get -u .*"]'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           app_private_key: ${{ secrets.DEPENDENCY_BOT_PRIVATE_KEY }}
           client_id: ${{ vars.DEPENDENCY_BOT_CLIENT_ID }}
