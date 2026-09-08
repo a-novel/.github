@@ -1,8 +1,10 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/agora%20(dark).png">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/agora%20(light).png">
-  <img alt="Agora logo." src="https://raw.githubusercontent.com/a-novel/uikit/master/src/lib/assets/logos/HD/agora%20(dark).png">
-</picture>
+<p align="center">
+  <img
+    alt="Agora"
+    src="https://raw.githubusercontent.com/a-novel-kit/uikit/v0.4.0/packages/images/files/banner/1920w/agora-banner.png"
+    width="960"
+  />
+</p>
 
 # ⌨️ We are Agora
 
