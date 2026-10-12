@@ -1,0 +1,30 @@
+# Posts board issues that are ready to be picked up to the org's Discord issues channel: a thin
+# scheduled caller of the shared reusable workflow in a-novel-kit/workflows, which polls the board
+# because a Status change raises no event. This file owns only the schedule and the org's values.
+name: notify-issues
+
+on:
+  schedule:
+    - cron: "4-59/15 * * * *"
+  workflow_dispatch:
+
+# One poll at a time, so two runs never post the same change.
+concurrency:
+  group: notify-issues
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    # The callee reads this workflow's previous run; the board goes through its App token.
+    permissions:
+      actions: read
+    uses: a-novel-kit/workflows/.github/workflows/notify-issues-run.yaml@v1.49.0
+    with:
+      project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
+      client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+      roles: ${{ vars.DISCORD_REPO_ROLES }}
+      bws_server_url: ${{ vars.BWS_SERVER_URL }}
+    secrets:
+      private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+      webhook: ${{ secrets.ISSUES_WEBHOOK }}
+      bws_access_token: ${{ secrets.BWS_READ_TOKEN }}
