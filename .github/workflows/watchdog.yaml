@@ -22,8 +22,8 @@ jobs:
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
-      # SEV1/SEV2 @mention for the escalation ticket + the Discord page. Discord pings a role only in
-      # the `<@&ROLE_ID>` form, so SEV1_MENTION must be that wrapped value, not a bare id.
+      # SEV1/SEV2 @mention on escalation tickets: a GitHub handle such as @kushuh. SEV1 pages reach
+      # Discord without a ping; SEV1_MENTION is unset while SEV1 stays off.
       mention: ${{ vars.SEV1_MENTION }}
       # Heartbeat: page SEV1 if either scheduled fail-safe stops running (mutual dead-man's-switch).
       heartbeat_workflows: "reconcile-board.yaml,watchdog.yaml"
