@@ -18,7 +18,14 @@ on:
   # on merge_group drops the queued group, so the check must post on the group head
   # too or a queued PR times out.
   pull_request:
-    types: [opened, reopened, synchronize, labeled, unlabeled, ready_for_review, converted_to_draft]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+      - ready_for_review
+      - converted_to_draft
   pull_request_review:
     types: [submitted, dismissed]
   merge_group:
@@ -35,7 +42,7 @@ jobs:
     # a stray forward is sweep-only, so a per-PR run can never re-enqueue.
     permissions: {}
     steps:
-      - uses: a-novel-kit/workflows/generic-actions/detect-partial-landing@v1.51.2
+      - uses: a-novel-kit/workflows/generic-actions/detect-partial-landing@v1.52.0
         with:
           client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
           app_private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}

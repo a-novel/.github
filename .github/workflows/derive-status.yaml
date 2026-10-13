@@ -11,7 +11,13 @@ name: derive-status
 
 on:
   pull_request:
-    types: [opened, reopened, converted_to_draft, ready_for_review, closed, synchronize]
+    types:
+      - opened
+      - reopened
+      - converted_to_draft
+      - ready_for_review
+      - closed
+      - synchronize
   pull_request_review:
     types: [submitted, dismissed]
 
@@ -25,7 +31,7 @@ jobs:
       pull-requests: read
       issues: read
     steps:
-      - uses: a-novel-kit/workflows/generic-actions/derive-status@v1.51.2
+      - uses: a-novel-kit/workflows/generic-actions/derive-status@v1.52.0
         with:
           client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
           app_private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
