@@ -1,12 +1,11 @@
-# Per-org daily fine-grained-PAT expiry digest → the token-expiry Discord channel. Thin scheduled
-# caller of the shared reusable workflow in a-novel-kit/workflows; the enumeration + digest live
-# there, this owns only the schedule + concurrency. The App token is auto-scoped to THIS org, so each
-# org's caller sweeps its own PATs.
+# Per-org daily fine-grained-PAT expiry digest → the token-expiry Discord channel. Thin caller of
+# the shared reusable workflow in a-novel-kit/workflows; the enumeration + digest live there, this
+# owns only the concurrency. GitHub starts scheduled workflows hours late, so the Google Cloud clock
+# (github-dispatch, in a-novel/infra) dispatches it daily at 08:00 UTC, with no inputs. The App
+# token is auto-scoped to THIS org, so each org's caller sweeps its own PATs.
 name: token-expiry
 
 on:
-  schedule:
-    - cron: "0 8 * * *" # daily 08:00 UTC
   workflow_dispatch:
     inputs:
       test_run:
