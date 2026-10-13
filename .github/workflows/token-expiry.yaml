@@ -26,10 +26,9 @@ jobs:
     uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.51.2
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
-      # Start dry-run: enumerate + log the pings that WOULD fire, no Discord post, until a cycle is
-      # seen. Flip to "false" to arm the real daily pings (watchdog / reconcile-board staged-rollout
-      # convention). A UI test_run always posts for real regardless of this.
-      dry_run: "true"
+      # Armed: posts each due ping to the token-expiry channel. "true" only logs the pings that would
+      # fire. A UI test_run always posts for real regardless of this.
+      dry_run: "false"
       # UI-only: post for every PAT, admin-only, ignoring the milestone policy — an end-to-end drill.
       test_run: ${{ inputs.test_run || false }}
     secrets:
