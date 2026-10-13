@@ -1,6 +1,10 @@
 # Per-org staleness watchdog — a thin scheduled caller of the shared reusable workflow in
 # a-novel-kit/workflows. The detection (stale required checks, stuck hotfix runs, and the fail-safe
 # heartbeat) lives there; this file owns only the schedule, the concurrency, and the per-org board id.
+# GitHub starts scheduled workflows hours late, so the Google Cloud clock (github-dispatch, in
+# a-novel/infra) also dispatches it every 30 minutes. It keeps its own cron: if the clock stops,
+# GitHub still runs the watchdog within hours, and its heartbeat reports the fail-safes the clock no
+# longer starts.
 name: watchdog
 
 on:

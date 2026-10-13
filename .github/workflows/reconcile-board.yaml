@@ -1,11 +1,11 @@
-# Per-org board reconcile sweep — a thin scheduled caller of the shared reusable workflow
-# in a-novel-kit/workflows. The sweep's logic (rollup + status-drift + merge-gate re-post)
-# lives there; this file owns only the schedule, the concurrency, and the per-org board id.
+# Per-org board reconcile sweep — a thin caller of the shared reusable workflow in
+# a-novel-kit/workflows. The sweep's logic (rollup + status-drift + merge-gate re-post) lives there;
+# this file owns only the concurrency and the per-org board id. GitHub starts scheduled workflows
+# hours late, so the Google Cloud clock (github-dispatch, in a-novel/infra) dispatches it every 15
+# minutes: the fail-safe cadence, not the primary path.
 name: reconcile-board
 
 on:
-  schedule:
-    - cron: "*/15 * * * *" # the fail-safe, not the primary path
   workflow_dispatch:
 
 # One reconcile at a time per board.
