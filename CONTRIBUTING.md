@@ -18,6 +18,6 @@ Each repository extends this with its own `CONTRIBUTING.md`.
 
 ## External resources
 
-- [Developer onboarding guide](https://github.com/a-novel-kit/.github/blob/master/README.md) — the
+- [Developer guide](https://a-novel-kit.github.io/stack/) — the
   toolchain and the `a-novel` CLI in practice.
 - [Semantic Versioning](https://semver.org/) — the versioning scheme.

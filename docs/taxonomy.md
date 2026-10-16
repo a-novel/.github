@@ -194,7 +194,7 @@ concrete resource and files; it does not restate the model.
 
 ## External resources
 
-- [Developer onboarding guide](https://github.com/a-novel-kit/.github/blob/master/README.md) — the
+- [Developer guide](https://a-novel-kit.github.io/stack/) — the
   toolchain and the `a-novel` CLI.
 - [Libraries, tooling & platform concepts](https://github.com/a-novel-kit/.github/blob/master/CONTRIBUTING.md)
   — the two-org model, repository kinds, libraries, and the CLI.
