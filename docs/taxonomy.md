@@ -10,6 +10,20 @@ repository extends this document with its own `CONTRIBUTING.md`.
 The backend is a set of **isolated services**. Each owns one slice of the product and runs on its own, and
 client code reaches them only through their **APIs**.
 
+## A-Novel and Agora
+
+**A-Novel** is the entity that owns the code. It spans both organizations and every service, library and
+tool in them. **Agora** is the brand of the product family users see. Studio is its only product today,
+and Storyverse will join it. Only those products and the copy their users read carry the Agora name:
+pages, emails and the account. Everything else is A-Novel, and `a-novel` in identifiers.
+
+A few names predate this rule and keep Agora for now:
+
+- the logo, until A-Novel has its own;
+- the `agora-storyverse` Google Cloud project and the `agorastoryverse.com` Google Workspace domain;
+- the `agorastoryverse` social handles;
+- the `agora-` prefix of production resource IDs, until [their migration](https://github.com/a-novel/.github/issues/434) lands.
+
 ## Services and domains
 
 A service is bounded by its **domain**, a cohesive area of the product. You draw a domain by the product
