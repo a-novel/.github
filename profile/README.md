@@ -6,9 +6,10 @@
   />
 </p>
 
-# ⌨️ We are Agora
+# ⌨️ We are A-Novel
 
-Agora is an online writing studio, powered by AI. It helps you speed your writing process, and focus on creative tasks.
+A-Novel builds Agora, a family of writing tools powered by AI. Its first product, Agora Studio, is an
+online writing studio. It helps you speed up your writing process and focus on creative tasks.
 
 ## 📱 Socials
 
@@ -22,7 +23,7 @@ Join us on social media!
 
 Take a look at our [roadmap](https://github.com/orgs/a-novel/projects/7).
 
-Want to build Agora locally? Head to the
+Want to build A-Novel locally? Head to the
 [developer guide](https://a-novel-kit.github.io/stack/)
 in our sister org [a-novel-kit](https://github.com/a-novel-kit), home of our shared libraries
 and tooling.
