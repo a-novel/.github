@@ -23,7 +23,7 @@ jobs:
     # The callee mints its own App token and declares permissions: {}; the
     # caller sets the ceiling, so it must not hand down the repo default.
     permissions: {}
-    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.62.0
+    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.63.0
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       # Armed: posts each due ping to the token-expiry channel. "true" only logs the pings that would
