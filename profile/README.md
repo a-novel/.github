@@ -1,10 +1,61 @@
 <p align="center">
-  <img
-    alt="Agora"
-    src="https://raw.githubusercontent.com/a-novel-kit/uikit/v0.4.0/packages/images/files/banner/1920w/agora-banner.png"
-    width="960"
-  />
+  <picture>
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/a-novel-banner.png"
+    />
+    <source
+      media="(prefers-color-scheme: light)"
+      srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/a-novel-banner-light.png"
+    />
+    <img
+      alt="A-Novel"
+      src="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/a-novel-banner-light.png"
+      width="906"
+    />
+  </picture>
 </p>
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/a-novel/platform-studio">
+        <picture>
+          <source
+            media="(prefers-color-scheme: dark)"
+            srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/studio-banner.png"
+          />
+          <source
+            media="(prefers-color-scheme: light)"
+            srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/studio-banner-light.png"
+          />
+          <img
+            alt="Studio"
+            src="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/studio-banner-light.png"
+            width="337"
+          />
+        </picture>
+      </a>
+    </td>
+    <td align="center">
+      <picture>
+        <source
+          media="(prefers-color-scheme: dark)"
+          srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/agora-banner.png"
+        />
+        <source
+          media="(prefers-color-scheme: light)"
+          srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/agora-banner-light.png"
+        />
+        <img
+          alt="Agora"
+          src="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/agora-banner-light.png"
+          width="319"
+        />
+      </picture>
+    </td>
+  </tr>
+</table>
 
 # ⌨️ We are A-Novel
 
