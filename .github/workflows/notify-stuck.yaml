@@ -17,7 +17,7 @@ jobs:
     # The callee reads this workflow's previous run; the pull requests go through its App token.
     permissions:
       actions: read
-    uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.61.0
+    uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.61.1
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       roles: ${{ vars.DISCORD_REPO_ROLES }}
