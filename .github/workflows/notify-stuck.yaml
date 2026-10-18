@@ -1,7 +1,8 @@
-# Posts bots' pull requests that stay green but never merge to the org's Discord dependencies and
-# reviews channels: a thin caller of the shared reusable workflow in a-novel-kit/workflows. GitHub
-# starts scheduled workflows hours late, so a Google Cloud clock (github-dispatch, in a-novel/infra)
-# dispatches this every hour instead of a cron. This file owns only the org's values.
+# Posts bots' pull requests that stay green but never merge to the org's Discord dependencies
+# channel, and to their repository's reviews channel when they wait on a review: a thin caller of the
+# shared reusable workflow in a-novel-kit/workflows. GitHub starts scheduled workflows hours late,
+# so a Google Cloud clock (github-dispatch, in a-novel/infra) dispatches this every hour instead of a
+# cron. This file owns only the org's values.
 name: notify-stuck
 
 on:
@@ -17,7 +18,7 @@ jobs:
     # The callee reads this workflow's previous run; the pull requests go through its App token.
     permissions:
       actions: read
-    uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.61.1
+    uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.62.0
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       roles: ${{ vars.DISCORD_REPO_ROLES }}
@@ -26,4 +27,5 @@ jobs:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
       dependencies_webhook: ${{ secrets.DEPENDENCIES_WEBHOOK }}
       reviews_webhook: ${{ secrets.REVIEWS_WEBHOOK }}
+      reviews_webhooks: ${{ secrets.REVIEWS_WEBHOOKS }}
       bws_access_token: ${{ secrets.BWS_READ_TOKEN }}

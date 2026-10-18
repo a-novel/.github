@@ -1,8 +1,8 @@
-# Posts board issues that are ready to be picked up to the org's Discord issues channel: a thin
-# caller of the shared reusable workflow in a-novel-kit/workflows, which polls the board because a
-# Status change raises no event. GitHub starts scheduled workflows hours late, so the Google Cloud
-# clock (github-dispatch, in a-novel/infra) dispatches it every 15 minutes instead of a cron. This
-# file owns only the org's values.
+# Posts board issues that are ready to be picked up to their repository's Discord issues channel,
+# or the org's when the repository has none: a thin caller of the shared reusable workflow in
+# a-novel-kit/workflows, which polls the board because a Status change raises no event. GitHub starts
+# scheduled workflows hours late, so the Google Cloud clock (github-dispatch, in a-novel/infra)
+# dispatches it every 15 minutes instead of a cron. This file owns only the org's values.
 name: notify-issues
 
 on:
@@ -18,7 +18,7 @@ jobs:
     # The callee reads this workflow's previous run; the board goes through its App token.
     permissions:
       actions: read
-    uses: a-novel-kit/workflows/.github/workflows/notify-issues-run.yaml@v1.61.1
+    uses: a-novel-kit/workflows/.github/workflows/notify-issues-run.yaml@v1.62.0
     with:
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
@@ -27,4 +27,5 @@ jobs:
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
       webhook: ${{ secrets.ISSUES_WEBHOOK }}
+      webhooks: ${{ secrets.ISSUES_WEBHOOKS }}
       bws_access_token: ${{ secrets.BWS_READ_TOKEN }}
