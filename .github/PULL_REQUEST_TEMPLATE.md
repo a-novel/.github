@@ -1,31 +1,29 @@
 <!--
-Thanks for opening a pull request against an a-novel repository!
-
-Before you submit, please make sure:
-  - The PR title follows Conventional Commits: <type>(<scope>): <description>
+Before you submit:
+  - Title the pull request as a Conventional Commit: <type>(<scope>): <description>
     Examples: feat(dao): add key revoke endpoint
               fix(handlers): return 404 instead of 500 on missing key
               chore(deps): bump golib to v1.4.2
-  - The branch name follows the same vocabulary: <type>/<scope>/<short-description>
-  - You have read the Code of Conduct (../CODE_OF_CONDUCT.md).
+  - Name the branch with the same vocabulary: <type>/<scope>/<short-description>
+  - Read the Code of Conduct: https://github.com/a-novel/.github/blob/master/CODE_OF_CONDUCT.md
 
-You can delete this comment block once your PR is ready.
+Delete this comment block once your pull request is ready.
 -->
 
 ## Summary
 
-<!-- 1–3 short bullets describing WHAT changed and WHY. Skip the "how" — reviewers will read the diff. -->
+<!-- 1–3 short bullets on what changed and why. Reviewers read the diff for the how. -->
 
 -
 -
 
 ## Linked issues
 
-<!-- Use "Closes #123" to auto-close on merge, or "Refs #123" to link without closing.
-     If there is no related issue, write "None" and briefly explain the motivation.
-     Implementing a PLANNING issue (Epic/Feature/Task on the org board)? It lives in the org
-     .github repo — close it CROSS-REPO: "Closes a-novel/.github#123" (a bare "#123" links
-     nothing, so the issue never advances on the board). -->
+<!-- Write "Closes #123" to close the issue on merge, or "Refs #123" to link it without closing.
+     An issue in another repository, such as a planning issue in the org's .github repository,
+     needs its full reference: "Closes a-novel/.github#123". A bare "#123" only finds an
+     issue in this repository, and the board never moves the other one.
+     Without a related issue, write "None" and give the motivation. -->
 
 Closes #
 
@@ -35,7 +33,7 @@ Closes #
 
 - [ ] `feat` — new capability
 - [ ] `fix` — bug fix
-- [ ] `refactor` — restructuring without behaviour change
+- [ ] `refactor` — restructuring without behavior change
 - [ ] `perf` — performance improvement
 - [ ] `test` — tests only
 - [ ] `docs` — documentation only

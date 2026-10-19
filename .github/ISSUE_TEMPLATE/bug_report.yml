@@ -23,7 +23,7 @@ body:
     attributes:
       label: Affected repository
       description: Which repository in the `a-novel` or `a-novel-kit` org does this bug live in?
-      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel/uikit
+      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel-kit/uikit
     validations:
       required: true
 

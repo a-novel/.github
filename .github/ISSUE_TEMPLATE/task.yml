@@ -8,15 +8,15 @@ body:
   - type: markdown
     attributes:
       value: |
-        Use this to plan a concrete unit of work — a **Task** (≈ one pull request).
+        Use this to plan a concrete unit of work: a **Task**, about one pull request.
 
-        - For a larger, multi-stage or multi-repo initiative, set the issue **type** to **Epic** and
-          break it into Task **sub-issues**; sequence them with **blocked-by** dependencies so a stage
-          only starts once its predecessor lands.
+        - Several Tasks that must land together form an **Epic**. Set the issue **type** to **Epic**
+          and add the Tasks as **sub-issues**. Work that must ship in order takes separate Epics,
+          sequenced with **blocked-by** dependencies.
         - The fields below are the **plan**. Keep it clean: put open questions, options, and
           back-and-forth in **comments**, not in the body.
-        - Not sure yet, or want to discuss first? Use [Discord](https://discord.gg/rp4Qr8cA); file
-          here once the idea has crystallised. Check the
+        - Not sure yet, or want to discuss first? Use [Discord](https://discord.gg/rp4Qr8cA), and file
+          here once the idea is concrete. Check the
           [roadmap](https://github.com/orgs/a-novel/projects/7) to avoid duplicates.
 
   - type: input
