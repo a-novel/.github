@@ -7,9 +7,7 @@ on:
     branches:
       - "**"
 
-# Cancel an in-progress lint run when a newer commit lands on the same ref — the superseded run's
-# result is never useful. Safe here because this workflow only lints, with no release or deploy
-# work that has to run to completion. Mirrors a-novel-kit/.github.
+# This workflow only lints, so a newer commit on the same ref supersedes the running one.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -25,7 +23,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-  # Structural conventions golangci-lint cannot express.
+  # No semgrep ruleset applies to this repository, so the job passes without scanning.
   lint-semgrep:
     runs-on: ubuntu-latest
     permissions:
@@ -40,8 +38,7 @@ jobs:
           # renovate: datasource=docker depName=semgrep/semgrep
           version: "1.181.0"
 
-  # Replaces GitGuardian, which gated on a hosted service: when it saturated,
-  # every PR in the fleet became unmergeable. This runs offline.
+  # Scans offline, so no hosted service sits on the merge path.
   scan-secrets:
     runs-on: ubuntu-latest
     permissions:
@@ -55,8 +52,6 @@ jobs:
           # renovate: datasource=github-releases depName=gitleaks/gitleaks
           version: "8.30.1"
 
-  # Replaces CodeQL's actions analysis: excessive-permissions is the class it
-  # reported as actions/missing-workflow-permissions.
   lint-workflows:
     runs-on: ubuntu-latest
     permissions:

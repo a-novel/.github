@@ -1,8 +1,6 @@
-# Per-org board reconcile sweep — a thin caller of the shared reusable workflow in
-# a-novel-kit/workflows. The sweep's logic (rollup + status-drift + merge-gate re-post) lives there;
-# this file owns only the concurrency and the per-org board id. GitHub starts scheduled workflows
-# hours late, so the Google Cloud clock (github-dispatch, in a-novel/infra) dispatches it every 15
-# minutes: the fail-safe cadence, not the primary path.
+# Sweeps the org's board and repairs any drift from the pull requests and issues underneath. Events
+# update the board as they happen, and this sweep catches what they miss. GitHub starts scheduled
+# workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one every 15 minutes.
 name: reconcile-board
 
 on:
@@ -15,19 +13,17 @@ concurrency:
 
 jobs:
   reconcile:
-    # The callee mints its own App token and declares permissions: {}; the
-    # caller sets the ceiling, so it must not hand down the repo default.
+    # The callee mints its own App token. The caller's block caps the callee's, so it grants nothing.
     permissions: {}
     uses: a-novel-kit/workflows/.github/workflows/reconcile-board.yaml@v1.63.0
     with:
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
-      # Enforce the partial-landing detector: the sweep posts epic-freeze check-runs (success on
-      # healthy + standalone heads, failure on a partial landing) instead of only logging.
+      # Posts epic-freeze check-runs, which fail on a partial landing.
       detect_dry_run: "false"
-      # Board lifecycle live (validated dry 2026-07-07): roll each Epic/Initiative's Status up from
-      # its children, and archive+close resolved "Applied" meta work org-wide.
+      # Writes each Epic's and Initiative's Status, rolled up from its children.
       rollup_dry_run: "false"
+      # Archives and closes resolved Applied meta work across the org.
       archive_dry_run: "false"
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}

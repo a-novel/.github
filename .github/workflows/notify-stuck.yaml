@@ -1,8 +1,6 @@
 # Posts bots' pull requests that stay green but never merge to the org's Discord dependencies
-# channel, and to their repository's reviews channel when they wait on a review: a thin caller of the
-# shared reusable workflow in a-novel-kit/workflows. GitHub starts scheduled workflows hours late,
-# so a Google Cloud clock (github-dispatch, in a-novel/infra) dispatches this every hour instead of a
-# cron. This file owns only the org's values.
+# channel, and to their repository's reviews channel when they wait on a review. GitHub starts
+# scheduled workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one every hour.
 name: notify-stuck
 
 on:
