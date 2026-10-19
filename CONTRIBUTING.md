@@ -1,23 +1,17 @@
 # Contributing to a-novel
 
-`a-novel` is the **product**: the backend services and platforms that make up the application. It is built
-on [`a-novel-kit`](https://github.com/a-novel-kit), the platform of shared libraries and tooling.
-This is the entry point to the contributor documentation; each topic has its own page.
+`a-novel` is the **product**: the backend services and platforms that make up the application. It is
+built on [`a-novel-kit`](https://github.com/a-novel-kit), the platform of shared libraries and tooling.
+Set up your machine with the [developer guide](https://a-novel-kit.github.io/stack/) first.
 
-## Contents
+- **[Taxonomy](docs/taxonomy.md)** is the product's vocabulary and architecture.
+- **[The board lifecycle](https://github.com/a-novel-kit/.github/blob/master/docs/board-lifecycle.md)**
+  is how work is planned, tracked, landed and released. Both organizations run it.
+- **[The platform taxonomy](https://github.com/a-novel-kit/.github/blob/master/docs/taxonomy.md)**
+  covers the libraries and tooling the product is built on.
 
-- **[Taxonomy](docs/taxonomy.md)** — the product vocabulary: the services (and later platforms) that
-  make up the application, their APIs, the layers and contracts inside one, state, and jobs.
-- **[The board lifecycle](https://github.com/a-novel-kit/.github/blob/master/docs/board-lifecycle.md)** —
-  how work is planned, tracked, landed, and released on the board, and how to handle the edge cases. Both
-  organizations run the identical process, so this page lives in `a-novel-kit`.
-- **[Platform taxonomy](https://github.com/a-novel-kit/.github/blob/master/docs/taxonomy.md)** — the
-  libraries and tooling the product is built on (kit-owned).
+Each repository adds its own `CONTRIBUTING.md`.
 
-Each repository extends this with its own `CONTRIBUTING.md`.
+## Questions?
 
-## External resources
-
-- [Developer guide](https://a-novel-kit.github.io/stack/) — the
-  toolchain and the `a-novel` CLI in practice.
-- [Semantic Versioning](https://semver.org/) — the versioning scheme.
+Ask on [Discord](https://discord.gg/rp4Qr8cA), or open an issue on the affected repository.
