@@ -14,8 +14,7 @@ body:
         - Please search [existing issues](https://github.com/a-novel) and the
           [roadmap](https://github.com/orgs/a-novel/projects/7) first to avoid duplicates.
         - For open-ended discussion or ideas you are not yet sure about, please use
-          [Discord](https://discord.gg/rp4Qr8cA) — once an idea has crystallised into a concrete
-          ask, file it here.
+          [Discord](https://discord.gg/rp4Qr8cA). File it here once the idea is a concrete ask.
 
   - type: input
     id: target-repo
@@ -24,7 +23,7 @@ body:
       description: |
         Which repository (or repositories) should this feature land in? If you are not sure,
         leave a best guess and a maintainer will reassign.
-      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel/uikit
+      placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel-kit/uikit
     validations:
       required: true
 
@@ -82,7 +81,7 @@ body:
       label: Use case / motivation
       description: |
         Who benefits from this? Is there a concrete project, integration, or workflow that needs
-        this feature? Real-world context helps us prioritise.
+        this feature? Real-world context helps us prioritize.
     validations:
       required: false
 

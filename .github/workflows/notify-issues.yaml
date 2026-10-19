@@ -1,8 +1,7 @@
 # Posts board issues that are ready to be picked up to their repository's Discord issues channel,
-# or the org's when the repository has none: a thin caller of the shared reusable workflow in
-# a-novel-kit/workflows, which polls the board because a Status change raises no event. GitHub starts
-# scheduled workflows hours late, so the Google Cloud clock (github-dispatch, in a-novel/infra)
-# dispatches it every 15 minutes instead of a cron. This file owns only the org's values.
+# or to the org's channel when the repository has none. The reusable workflow polls the board,
+# because a Status change raises no event. GitHub starts scheduled workflows hours late, so
+# a-novel/infra's Cloud Scheduler dispatches this one every 15 minutes.
 name: notify-issues
 
 on:

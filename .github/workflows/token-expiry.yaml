@@ -1,15 +1,14 @@
-# Per-org daily fine-grained-PAT expiry digest → the token-expiry Discord channel. Thin caller of
-# the shared reusable workflow in a-novel-kit/workflows; the enumeration + digest live there, this
-# owns only the concurrency. GitHub starts scheduled workflows hours late, so the Google Cloud clock
-# (github-dispatch, in a-novel/infra) dispatches it daily at 08:00 UTC, with no inputs. The App
-# token is auto-scoped to THIS org, so each org's caller sweeps its own PATs.
+# Warns the token-expiry Discord channel before the org's fine-grained personal access tokens
+# expire. The App token is scoped to this org, so each org sweeps its own tokens. GitHub starts
+# scheduled workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one daily at
+# 08:00 UTC, with no inputs.
 name: token-expiry
 
 on:
   workflow_dispatch:
     inputs:
       test_run:
-        description: "Test run: post to token-tracker for EVERY PAT (admin only), ignoring the milestone policy."
+        description: "Test run: post to the token-expiry channel for every token, ignoring the ping policy."
         type: boolean
         default: false
 
@@ -20,19 +19,15 @@ concurrency:
 
 jobs:
   token-expiry:
-    # The callee mints its own App token and declares permissions: {}; the
-    # caller sets the ceiling, so it must not hand down the repo default.
+    # The callee mints its own App token. The caller's block caps the callee's, so it grants nothing.
     permissions: {}
     uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.63.0
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
-      # Armed: posts each due ping to the token-expiry channel. "true" only logs the pings that would
-      # fire. A UI test_run always posts for real regardless of this.
       dry_run: "false"
-      # UI-only: post for every PAT, admin-only, ignoring the milestone policy — an end-to-end drill.
       test_run: ${{ inputs.test_run || false }}
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
       webhook: ${{ secrets.TOKEN_EXPIRY_WEBHOOK }}
-      # All pings go to this admin for now; per-owner pinging arrives with the Bitwarden resolver (#104).
+      # The admin who triages every ping.
       default_mention: ${{ secrets.TOKEN_EXPIRY_ADMIN }}
