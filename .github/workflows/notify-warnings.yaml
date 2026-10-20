@@ -1,0 +1,28 @@
+# Posts a daily digest of the CI warnings this org's default branches raised to its Discord CI
+# channel. GitHub starts scheduled workflows hours late, so a-novel/infra's Cloud Scheduler
+# dispatches this one daily at 07:00 UTC.
+#
+# An expected warning gets an ignore rule below: a reason, plus regular expressions for its "repo"
+# ("<org>/<repo>"), "job" or "message". The run's step summary counts what each rule hid.
+name: notify-warnings
+
+on:
+  workflow_dispatch:
+
+# One digest at a time, so two runs never read the same window.
+concurrency:
+  group: notify-warnings
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    # The callee mints its own App token. The caller's block caps the callee's, so it grants nothing.
+    permissions: {}
+    uses: a-novel-kit/workflows/.github/workflows/notify-warnings-run.yaml@v1.65.0
+    with:
+      client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+      ignore: |
+        []
+    secrets:
+      private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+      webhook: ${{ secrets.CI_WEBHOOK }}
