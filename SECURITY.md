@@ -83,5 +83,5 @@ reports are equally welcome.
 
 ## Comments on This Policy
 
-Suggest an improvement with a pull request on this file in the
-[`.github`](https://github.com/a-novel/.github) repository.
+Suggest an improvement in a [discussion](https://github.com/a-novel/.github/discussions) on the
+`.github` repository.
