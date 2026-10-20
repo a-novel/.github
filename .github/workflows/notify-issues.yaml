@@ -1,4 +1,4 @@
-# Posts board issues that are ready to be picked up to their repository's Discord issues channel,
+# Posts each board issue's Status and assignee changes to its repository's Discord issues channel,
 # or to the org's channel when the repository has none. The reusable workflow polls the board,
 # because a Status change raises no event. GitHub starts scheduled workflows hours late, so
 # a-novel/infra's Cloud Scheduler dispatches this one every 15 minutes.
