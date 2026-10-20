@@ -2,8 +2,6 @@ name: Bug report
 description: Report a reproducible bug or regression in an a-novel project.
 title: "bug: <short description>"
 type: Bug
-labels:
-  - triage
 body:
   - type: markdown
     attributes:

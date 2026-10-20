@@ -2,8 +2,6 @@ name: Task / planning
 description: Plan a concrete piece of work using the standard structure. The body is the agreed plan; keep open questions in comments.
 title: "task: <short description>"
 type: Task
-labels:
-  - triage
 body:
   - type: markdown
     attributes:
