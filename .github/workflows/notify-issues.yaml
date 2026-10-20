@@ -1,4 +1,4 @@
-# Posts board issues that are ready to be picked up to their repository's Discord issues channel,
+# Posts each board issue's Status and assignee changes to its repository's Discord issues channel,
 # or to the org's channel when the repository has none. The reusable workflow polls the board,
 # because a Status change raises no event. GitHub starts scheduled workflows hours late, so
 # a-novel/infra's Cloud Scheduler dispatches this one every 15 minutes.
@@ -17,7 +17,7 @@ jobs:
     # The callee reads this workflow's previous run; the board goes through its App token.
     permissions:
       actions: read
-    uses: a-novel-kit/workflows/.github/workflows/notify-issues-run.yaml@v1.65.1
+    uses: a-novel-kit/workflows/.github/workflows/notify-issues-run.yaml@v1.66.0
     with:
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
