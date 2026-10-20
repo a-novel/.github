@@ -2,15 +2,15 @@
   <picture>
     <source
       media="(prefers-color-scheme: dark)"
-      srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/a-novel-banner.png"
+      srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/a-novel-banner.png"
     />
     <source
       media="(prefers-color-scheme: light)"
-      srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/a-novel-banner-light.png"
+      srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/a-novel-banner-light.png"
     />
     <img
       alt="A-Novel"
-      src="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/a-novel-banner-light.png"
+      src="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/a-novel-banner-light.png"
       width="906"
     />
   </picture>
@@ -23,15 +23,15 @@
         <picture>
           <source
             media="(prefers-color-scheme: dark)"
-            srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/studio-banner.png"
+            srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/studio-banner.png"
           />
           <source
             media="(prefers-color-scheme: light)"
-            srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/studio-banner-light.png"
+            srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/studio-banner-light.png"
           />
           <img
             alt="Studio"
-            src="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/studio-banner-light.png"
+            src="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/studio-banner-light.png"
             width="337"
           />
         </picture>
@@ -41,15 +41,15 @@
       <picture>
         <source
           media="(prefers-color-scheme: dark)"
-          srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/agora-banner.png"
+          srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/agora-banner.png"
         />
         <source
           media="(prefers-color-scheme: light)"
-          srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/agora-banner-light.png"
+          srcset="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/agora-banner-light.png"
         />
         <img
           alt="Agora"
-          src="https://raw.githubusercontent.com/a-novel-kit/uikit/cfe1d542719dd8dff915b4773cad2352109763cb/packages/images/files/banner/960h/agora-banner-light.png"
+          src="https://raw.githubusercontent.com/a-novel-kit/uikit/master/packages/images/files/banner/960h/agora-banner-light.png"
           width="319"
         />
       </picture>
