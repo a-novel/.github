@@ -10,8 +10,8 @@ body:
       value: |
         Thanks for taking the time to suggest a feature.
 
-        - Search [existing issues](https://github.com/a-novel) and the
-          [roadmap](https://github.com/orgs/a-novel/projects/7) first, to avoid duplicates.
+        - Search [existing issues](https://github.com/search?q=org%3Aa-novel+is%3Aissue&type=issues) and the
+          [roadmap](https://github.com/orgs/a-novel/projects/7/views/4) first, to avoid duplicates.
         - Discuss an idea you are not sure about yet on [Discord](https://discord.gg/rp4Qr8cA),
           and file it here once it is a concrete ask.
 

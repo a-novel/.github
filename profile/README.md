@@ -72,7 +72,7 @@ Join us on social media!
 
 ## Contributing
 
-Follow the work on our [roadmap](https://github.com/orgs/a-novel/projects/7).
+Follow the work on our [roadmap](https://github.com/orgs/a-novel/projects/7/views/4).
 
 To build A-Novel locally, start with the [developer guide](https://a-novel-kit.github.io/stack/). It
 lives in our sister organization, [a-novel-kit](https://github.com/a-novel-kit), which holds our shared

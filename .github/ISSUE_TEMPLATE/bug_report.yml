@@ -12,7 +12,7 @@ body:
 
         - Report a **security vulnerability** privately, as the
           [security policy](https://github.com/a-novel/.github/blob/master/SECURITY.md) describes.
-        - Search [existing issues](https://github.com/a-novel) first, to avoid duplicates.
+        - Search [existing issues](https://github.com/search?q=org%3Aa-novel+is%3Aissue&type=issues) first, to avoid duplicates.
         - Ask questions and get support on [Discord](https://discord.gg/rp4Qr8cA).
 
   - type: input
