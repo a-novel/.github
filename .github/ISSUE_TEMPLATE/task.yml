@@ -13,17 +13,17 @@ body:
         - Several Tasks that must land together form an **Epic**. Set the issue **type** to **Epic**
           and add the Tasks as **sub-issues**. Work that must ship in order takes separate Epics,
           sequenced with **blocked-by** dependencies.
-        - The fields below are the **plan**. Keep it clean: put open questions, options, and
-          back-and-forth in **comments**, not in the body.
-        - Not sure yet, or want to discuss first? Use [Discord](https://discord.gg/rp4Qr8cA), and file
-          here once the idea is concrete. Check the
-          [roadmap](https://github.com/orgs/a-novel/projects/7) to avoid duplicates.
+        - The fields below are the **plan**. Put open questions, options and back-and-forth in
+          **comments**, so the body stays clean.
+        - Discuss an idea you are not sure about yet on [Discord](https://discord.gg/rp4Qr8cA), and
+          file it here once it is concrete. Check the
+          [roadmap](https://github.com/orgs/a-novel/projects/7) first, to avoid duplicates.
 
   - type: input
     id: affected-repos
     attributes:
       label: Affected repositories
-      description: Which repo(s) in the `a-novel` / `a-novel-kit` orgs does this touch?
+      description: The repositories of the `a-novel` and `a-novel-kit` organizations the work touches.
       placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib
     validations:
       required: true
@@ -32,7 +32,7 @@ body:
     id: goal
     attributes:
       label: Goal
-      description: What outcome, and why it matters — in plain language a non-technical reader can follow.
+      description: The outcome and why it matters, in plain language a non-technical reader can follow.
     validations:
       required: true
 
@@ -75,8 +75,8 @@ body:
       label: Cross-repo & rollout
       description: |
         Repos and repo kinds touched, the dependency order, and whether it must ship in stages
-        (backward-compatible first, cleanup later). Cross-repo version mechanics are owned by the
-        version-management process — capture intent here, not the git mechanics.
+        (backward-compatible first, cleanup later). Record the intent here. The release process
+        owns the version mechanics.
     validations:
       required: false
 
@@ -85,8 +85,8 @@ body:
     attributes:
       label: Work breakdown
       description: |
-        The Task sub-issues, in order — each ≈ one branch/PR. Track them natively as sub-issues +
-        blocked-by links; list them here for the reader.
+        The Task sub-issues in order, each about one pull request. Track them as sub-issues with
+        blocked-by links, and list them here for the reader.
       placeholder: |
         1. service-x — add the new endpoint (#...)
         2. platform-y — wire the client, blocked by #1

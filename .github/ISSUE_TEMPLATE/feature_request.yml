@@ -8,21 +8,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to suggest a feature!
+        Thanks for taking the time to suggest a feature.
 
-        **Before you continue:**
-        - Please search [existing issues](https://github.com/a-novel) and the
-          [roadmap](https://github.com/orgs/a-novel/projects/7) first to avoid duplicates.
-        - For open-ended discussion or ideas you are not yet sure about, please use
-          [Discord](https://discord.gg/rp4Qr8cA). File it here once the idea is a concrete ask.
+        - Search [existing issues](https://github.com/a-novel) and the
+          [roadmap](https://github.com/orgs/a-novel/projects/7) first, to avoid duplicates.
+        - Discuss an idea you are not sure about yet on [Discord](https://discord.gg/rp4Qr8cA),
+          and file it here once it is a concrete ask.
 
   - type: input
     id: target-repo
     attributes:
       label: Target repository
       description: |
-        Which repository (or repositories) should this feature land in? If you are not sure,
-        leave a best guess and a maintainer will reassign.
+        The repository or repositories the feature belongs in. A best guess is fine: a maintainer
+        reassigns it when needed.
       placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel-kit/uikit
     validations:
       required: true
@@ -32,8 +31,8 @@ body:
     attributes:
       label: Problem statement
       description: |
-        What problem are you trying to solve? Describe the user-facing pain point or the gap in
-        the current API, not the implementation you have in mind.
+        The problem to solve: the pain point users hit, or the gap in the current API. Keep the
+        implementation you have in mind for the next field.
       placeholder: |
         Today, when I try to do X, I have to do Y, which is painful because …
     validations:
@@ -44,8 +43,8 @@ body:
     attributes:
       label: Proposed solution
       description: |
-        Describe the change you would like to see. API shape, UX flow, configuration knobs —
-        whatever fits the kind of change you are proposing.
+        The change you would like to see, such as an API shape, a UX flow or a configuration
+        option.
     validations:
       required: true
 
@@ -54,8 +53,8 @@ body:
     attributes:
       label: Alternatives considered
       description: |
-        Have you tried other approaches or workarounds? What did and did not work? Are there
-        existing tools or libraries that solve a similar problem in a different way?
+        Other approaches or workarounds you tried, and what did or did not work. Name any tool or
+        library that solves a similar problem another way.
     validations:
       required: false
 
@@ -64,9 +63,8 @@ body:
     attributes:
       label: Would this be a breaking change?
       description: |
-        A "breaking change" is one that removes or renames an existing public symbol, changes
-        the semantics of a public API, or otherwise requires existing consumers to update their
-        code or configuration.
+        A breaking change removes or renames a public symbol, changes what a public API does, or
+        otherwise makes existing consumers update their code or configuration.
       options:
         - "No — fully backwards compatible"
         - "Yes — but staged migration is possible"
@@ -80,8 +78,8 @@ body:
     attributes:
       label: Use case / motivation
       description: |
-        Who benefits from this? Is there a concrete project, integration, or workflow that needs
-        this feature? Real-world context helps us prioritize.
+        Who benefits, and the project, integration or workflow that needs the feature. Real-world
+        context helps us prioritize.
     validations:
       required: false
 
@@ -90,7 +88,7 @@ body:
     attributes:
       label: Additional context
       description: |
-        Add any other context, mockups, links to related discussions, or prior art here.
+        Any other context, mockups, related discussions or prior art.
     validations:
       required: false
 
