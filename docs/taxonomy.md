@@ -51,9 +51,9 @@ not by external clients.
 ## Interacting with a service
 
 A service is reached through its **API**, the request/response contract it publishes for callers. The API
-is the service's promise to the outside world; everything below
-([Inside a service](#inside-a-service-layers-and-contracts)) is how it keeps that promise. The protocols
-that carry the API are an [implementation detail](#implementation-details).
+is the service's promise to the outside world, and the
+[layers inside the service](#inside-a-service-layers-and-contracts) keep that promise. The protocols that
+carry the API are an [implementation detail](#implementation-details).
 
 - A **client package** wraps an API for one programming language. It bundles the code to call the API,
   generated or written by hand, so callers need not declare the contract again. It can add helpers, such
@@ -166,7 +166,7 @@ on its own. A target is either:
 
 ## Implementation details
 
-The concepts above hold whatever tools implement them. These are the current choices:
+The concepts hold whatever tools implement them. A-Novel's current choices are:
 
 - **[Go](https://go.dev/)** is the implementation language; the internal contracts between layers are Go
   interfaces and types.
@@ -189,10 +189,11 @@ Only the domain resource differs.
 
 - **`internal/dao`** — the DAO layer; one file per query (a `.go`, plus a `.sql` when the query is
   hand-written), built on bun.
-- **`internal/core`** — the core layer; one file per feature. Each operation **owns the interface of the
-  dependency it calls**: a `<Resource>Dao` Go interface, held in a `dao` field, while `internal/dao`
-  provides the implementation. The core depends on a contract it defines, never on the database
-  package, so a high layer can mock everything beneath it (see [Layering rationale](#layering-rationale)).
+- **`internal/core`** — the core layer; one file per feature. Each feature **owns the interface of the
+  dependency it calls**: a `<Feature>Dao` Go interface such as `JwkSelectDao`, held in a `dao` field,
+  while `internal/dao` provides the implementation. The core depends on a contract it defines, never on
+  the database package, so a high layer can mock everything beneath it (see
+  [Layering rationale](#layering-rationale)).
 - **`internal/handlers`** — the handler layer; `rest.*` files serve the REST API, `grpc.*` the gRPC one.
 - **`cmd/<target>`** — one `main.go` per [target](#runnable-units): a server or a job.
 - **`pkg/go`, `pkg/js`** — the [client packages](#interacting-with-a-service), one per language.
