@@ -48,8 +48,7 @@ upgrade when you run an older version in production.
 
 This policy covers:
 
-- All source code in the repositories of the [`a-novel`](https://github.com/a-novel) and
-  [`a-novel-kit`](https://github.com/a-novel-kit) organizations.
+- All source code in the organization's repositories.
 - The artifacts those repositories publish, such as Go modules, npm packages and container images.
 - The infrastructure the A-Novel team owns and operates to serve its users.
 
