@@ -21,7 +21,7 @@ Delete this comment block once your pull request is ready.
 
 <!-- Write "Closes #123" to close the issue on merge, or "Refs #123" to link it without closing.
      An issue in another repository, such as a planning issue in the org's .github repository,
-     needs its full reference: "Closes a-novel/.github#123". A bare "#123" only finds an
+     needs its full reference: "Closes a-novel/.github#123". A bare "#123" finds only an
      issue in this repository, and the board never moves the other one.
      Without a related issue, write "None" and give the motivation. -->
 
@@ -43,9 +43,8 @@ Closes #
 
 ## Breaking changes
 
-<!-- If this PR introduces a breaking change, add `!` to the commit type (e.g. `feat(proto)!: …`)
-     AND a `BREAKING CHANGE:` footer in the commit body. Describe the break and the migration
-     path below. -->
+<!-- Mark a breaking commit with `!` after its type, as in `feat(proto)!: …`, and a
+     `BREAKING CHANGE:` footer in its body. -->
 
 - [ ] This PR contains **no** breaking changes.
 - [ ] This PR contains breaking changes (described below).

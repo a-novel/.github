@@ -8,21 +8,18 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to file a bug report!
+        Thanks for taking the time to file a bug report.
 
-        **Before you continue:**
-        - If you suspect a **security vulnerability**, please do not open a public issue. Follow
-          the [security policy](https://github.com/a-novel/.github/blob/master/SECURITY.md)
-          to report it privately.
-        - Please search [existing issues](https://github.com/a-novel) first to avoid duplicates.
-        - For questions or general support, please use [Discord](https://discord.gg/rp4Qr8cA)
-          rather than the issue tracker.
+        - Report a **security vulnerability** privately, as the
+          [security policy](https://github.com/a-novel/.github/blob/master/SECURITY.md) describes.
+        - Search [existing issues](https://github.com/search?q=org%3Aa-novel+is%3Aissue&type=issues) first, to avoid duplicates.
+        - Ask questions and get support on [Discord](https://discord.gg/rp4Qr8cA).
 
   - type: input
     id: affected-repo
     attributes:
       label: Affected repository
-      description: Which repository in the `a-novel` or `a-novel-kit` org does this bug live in?
+      description: The repository of the `a-novel` or `a-novel-kit` organization where the bug lives.
       placeholder: e.g. a-novel/service-authentication, a-novel-kit/golib, a-novel-kit/uikit
     validations:
       required: true
@@ -32,8 +29,8 @@ body:
     attributes:
       label: Version / commit
       description: |
-        Which version, release tag, container image tag, or commit SHA are you running? If you
-        are running from `master`, paste the commit SHA from `git rev-parse HEAD`.
+        The version, release tag, container image tag or commit SHA you run. On `master`, paste
+        the commit SHA that `git rev-parse HEAD` prints.
       placeholder: e.g. v1.4.2, master @ a1b2c3d, ghcr.io/a-novel/service-x:1.4.2
     validations:
       required: true
@@ -42,7 +39,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: A clear and concise description of what the bug is.
+      description: What the bug is, in a few sentences.
       placeholder: |
         When I do X, I expect Y, but I see Z instead.
     validations:
@@ -53,8 +50,8 @@ body:
     attributes:
       label: Steps to reproduce
       description: |
-        Minimal, complete, reproducible steps. If a code snippet or shell session reproduces it,
-        paste it as a fenced code block. The more precise this is, the faster we can fix it.
+        Minimal, complete steps that reproduce the bug. Paste a code snippet or shell session that
+        reproduces it as a fenced code block. Precise steps get a faster fix.
       placeholder: |
         1. Clone repo and check out commit X
         2. Run `a-novel …`
@@ -66,16 +63,16 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: Expected behaviour
-      description: What did you expect to happen instead?
+      label: Expected behavior
+      description: What you expected to happen instead.
     validations:
       required: true
 
   - type: textarea
     id: actual
     attributes:
-      label: Actual behaviour
-      description: What actually happened? Include error messages, stack traces, or screenshots.
+      label: Actual behavior
+      description: What happened instead, with error messages, stack traces or screenshots.
       render: shell
     validations:
       required: true
@@ -85,7 +82,7 @@ body:
     attributes:
       label: Environment
       description: |
-        Anything that might be relevant to reproducing the issue.
+        Anything relevant to reproducing the bug.
       value: |
         - OS:
         - Architecture (amd64, arm64):
@@ -101,8 +98,8 @@ body:
     attributes:
       label: Relevant logs or output
       description: |
-        Paste any relevant logs, stack traces, or command output here. **Please redact any
-        secrets, tokens, or personal data** before submitting.
+        Logs, stack traces or command output. **Redact every secret, token and piece of personal
+        data** before submitting.
       render: shell
     validations:
       required: false
@@ -111,7 +108,7 @@ body:
     id: additional-context
     attributes:
       label: Additional context
-      description: Add any other context, links, or screenshots about the problem here.
+      description: Any other context, links or screenshots about the bug.
     validations:
       required: false
 
