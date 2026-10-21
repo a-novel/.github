@@ -67,9 +67,9 @@ Most APIs are not open. A caller must prove **who it is** (authentication) and b
 it asks for (authorization). A small shared backbone solves both once for every service.
 
 - A **session** is a pair of JSON Web Tokens. A short-lived **access token** authorizes individual API
-  calls; a long-lived **refresh token** mints a new pair when the access token expires, so a caller
-  authenticates once and rolls its session without re-sending credentials. The **authentication service**
-  owns identities and issues both.
+  calls. A long-lived **refresh token** mints a new pair when the access token expires. A caller
+  therefore authenticates once and rolls its session without re-sending credentials. The
+  **authentication service** owns identities and issues both tokens.
 - **Signing is centralized.** One service, the signer, holds the keys and signs every token. No other
   service keeps a signing key, not even the one issuing tokens. The signer rotates its keys on a schedule
   and publishes their **public** half, so a token stays verifiable across a rotation while the private
@@ -137,7 +137,7 @@ boundaries.
 A service holds two kinds of information.
 
 - **Data** is what a service is _about_: the domain records it stores and serves. The service works on its
-  data while serving requests; more data does not change how it behaves.
+  data while serving requests. More data does not change how it behaves.
 - **State** is the smaller set of facts that decide _how_ a service behaves and what it can do, such
   as configuration, a feature flag, a signing key, an elevated user or the schema version. State may sit
   in the database next to the data, or in memory. Changing data is the service doing its work. Changing
