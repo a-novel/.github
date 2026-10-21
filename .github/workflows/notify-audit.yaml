@@ -1,0 +1,100 @@
+# Alerts this org's Discord security channel minutes after its audit log records an entry that can
+# hand someone access, weaken a protection or push past a rule. GitHub starts scheduled workflows
+# hours late, so a-novel/infra's Cloud Scheduler dispatches this one every five minutes.
+#
+# A routine entry gets an ignore rule below: a reason, plus regular expressions for fields of the
+# audit-log entry, a list field matched as its sorted values joined by commas. The run's step summary
+# counts what each rule hid.
+name: notify-audit
+
+on:
+  workflow_dispatch:
+
+# One run at a time, so two runs never post the same alert.
+concurrency:
+  group: notify-audit
+  cancel-in-progress: false
+
+jobs:
+  alert:
+    # The callee reads this workflow's previous run and its seen list. The audit log goes through its App token.
+    permissions:
+      actions: read
+    uses: a-novel-kit/workflows/.github/workflows/notify-audit-run.yaml@v1.71.0
+    with:
+      client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
+      ignore: |
+        [
+          {
+            "reason": "An admin merges a green pull request past the merge queue or its review",
+            "action": "^protected_branch\\.policy_override$",
+            "branch": "^refs/heads/master$",
+            "actor_is_bot": "^false$",
+            "overridden_codes": "^merge_queue(,review_policy_not_satisfied)?$"
+          },
+          {
+            "reason": "An admin merges a pull request in the browser before its checks pass",
+            "action": "^protected_branch\\.policy_override$",
+            "branch": "^refs/heads/master$",
+            "actor_is_bot": "^false$",
+            "overridden_codes": "^merge_queue,required_status_checks(,review_policy_not_satisfied)?$",
+            "referrer": "^https://github\\.com/a-novel/[^/]+/pull/\\d+$",
+            "programmatic_access_type": "^$"
+          },
+          {
+            "reason": "a-novel repo update writes the managed governance files to master",
+            "actor": "^kushuh$",
+            "action": "^protected_branch\\.policy_override$",
+            "branch": "^refs/heads/master$",
+            "overridden_codes": "^merge_queue,required_status_checks,review_policy_not_satisfied$",
+            "programmatic_access_type": "^OAuth access token$",
+            "user_agent": "^GitHub CLI v"
+          },
+          {
+            "reason": "The admin's CLI manages environments, their secrets and the area teams' repository grants, as repo update and the infra runbooks do",
+            "actor": "^kushuh$",
+            "action": "^(environment\\.[a-z_]+|team\\.(create|add_repository|remove_repository|change_parent_team|update_repository_permission))$",
+            "programmatic_access_type": "^OAuth access token$",
+            "user_agent": "^GitHub CLI v"
+          },
+          {
+            "reason": "a-novel repo update reconciles a ruleset, kept enforced, whose only new bypass is the release App",
+            "actor": "^kushuh$",
+            "action": "^repository_ruleset\\.(create|update)$",
+            "ruleset_enforcement": "^enabled$",
+            "ruleset_bypass_actors_added": "^(\\{\"actor_id\":5307879,\"actor_type\":\"Integration\",\"bypass_mode\":\"(always|exempt)\",\"id\":\\d+\\})?$",
+            "programmatic_access_type": "^OAuth access token$",
+            "user_agent": "^GitHub CLI v"
+          },
+          {
+            "reason": "The release App creates a release tag",
+            "actor": "^anovelbot-release\\[bot\\]$",
+            "action": "^protected_branch\\.policy_override$",
+            "branch": "^refs/tags/v\\d+\\.\\d+\\.\\d+$",
+            "before": "^0{40}$",
+            "overridden_codes": "^$"
+          },
+          {
+            "reason": "The release App pushes its unsigned release commit, or opens a release line",
+            "actor": "^anovelbot-release\\[bot\\]$",
+            "action": "^protected_branch\\.policy_override$",
+            "branch": "^refs/heads/(master|release/v\\d+\\.\\d+)$",
+            "overridden_codes": "^(invalid_signature,)?(merge_queue,)?required_status_checks(,review_policy_not_satisfied)?$"
+          },
+          {
+            "reason": "A push to a feature branch breaks the commit-message rule or races the merge queue",
+            "action": "^protected_branch\\.rejected_ref_update$",
+            "branch": "^refs/heads/(?!master$|release/)"
+          },
+          {
+            "reason": "Renovate tries a direct merge, which the merge queue refuses",
+            "actor": "^anovelbot-dependencies\\[bot\\]$",
+            "action": "^protected_branch\\.rejected_ref_update$",
+            "branch": "^refs/heads/master$"
+          }
+        ]
+    secrets:
+      private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
+      webhook: ${{ secrets.SECURITY_WEBHOOK }}
+      # The admin who triages every ping, as for token-expiry.
+      mention: ${{ secrets.TOKEN_EXPIRY_ADMIN }}
