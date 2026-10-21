@@ -15,7 +15,7 @@ jobs:
   reconcile:
     # The callee mints its own App token. The caller's block caps the callee's, so it grants nothing.
     permissions: {}
-    uses: a-novel-kit/workflows/.github/workflows/reconcile-board.yaml@v1.66.2
+    uses: a-novel-kit/workflows/.github/workflows/reconcile-board.yaml@v1.67.0
     with:
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
