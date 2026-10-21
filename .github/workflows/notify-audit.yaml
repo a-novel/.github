@@ -1,6 +1,6 @@
-# Alerts this org's Discord security channel minutes after its audit log records an entry that can
-# hand someone access, weaken a protection or push past a rule. GitHub starts scheduled workflows
-# hours late, so a-novel/infra's Cloud Scheduler dispatches this one every five minutes.
+# Alerts this org's Discord security channel within half an hour of its audit log recording an entry
+# that can hand someone access, weaken a protection or push past a rule. GitHub starts scheduled
+# workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one every 30 minutes.
 #
 # A routine entry gets an ignore rule below: a reason, plus regular expressions for fields of the
 # audit-log entry, a list field matched as its sorted values joined by commas. The run's step summary
