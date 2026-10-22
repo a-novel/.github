@@ -1,6 +1,7 @@
 # Posts bots' pull requests that stay green but never merge to the org's Discord dependencies
-# channel, and to their repository's reviews channel when they wait on a review. GitHub starts
-# scheduled workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one every hour.
+# channel, and to their repository's reviews channel when they wait on a review. It also tells the
+# security channel when notify-audit has not succeeded for 2 hours. GitHub starts scheduled
+# workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one every hour.
 name: notify-stuck
 
 on:
@@ -13,7 +14,7 @@ concurrency:
 
 jobs:
   notify:
-    # The callee reads this workflow's previous run; the pull requests go through its App token.
+    # The callee reads this workflow's and notify-audit's runs; the pull requests go through its App token.
     permissions:
       actions: read
     uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.74.0
@@ -27,3 +28,6 @@ jobs:
       reviews_webhook: ${{ secrets.REVIEWS_WEBHOOK }}
       reviews_webhooks: ${{ secrets.REVIEWS_WEBHOOKS }}
       bws_access_token: ${{ secrets.BWS_READ_TOKEN }}
+      security_webhook: ${{ secrets.SECURITY_WEBHOOK }}
+      # The admin who triages every security ping, as for notify-audit.
+      security_mention: ${{ secrets.TOKEN_EXPIRY_ADMIN }}
