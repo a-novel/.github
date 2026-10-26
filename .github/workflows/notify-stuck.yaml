@@ -17,7 +17,7 @@ jobs:
     # The callee reads this workflow's and notify-audit's runs; the pull requests go through its App token.
     permissions:
       actions: read
-    uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.78.0
+    uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.79.0
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       roles: ${{ vars.DISCORD_REPO_ROLES }}
