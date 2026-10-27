@@ -20,7 +20,7 @@ jobs:
     # The callee reads this workflow's previous run and its seen list. The audit log goes through its App token.
     permissions:
       actions: read
-    uses: a-novel-kit/workflows/.github/workflows/notify-audit-run.yaml@v1.80.0
+    uses: a-novel-kit/workflows/.github/workflows/notify-audit-run.yaml@v1.80.1
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       ignore: |
