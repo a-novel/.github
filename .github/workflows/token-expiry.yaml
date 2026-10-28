@@ -21,7 +21,7 @@ jobs:
   token-expiry:
     # The callee mints its own App token. The caller's block caps the callee's, so it grants nothing.
     permissions: {}
-    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.80.2
+    uses: a-novel-kit/workflows/.github/workflows/token-expiry.yaml@v1.81.0
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       dry_run: "false"
