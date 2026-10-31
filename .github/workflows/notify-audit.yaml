@@ -42,27 +42,9 @@ jobs:
             "programmatic_access_type": "^$"
           },
           {
-            "reason": "a-novel repo update writes the managed governance files to master",
+            "reason": "The admin's CLI sets an environment's secrets, as the release-key and infra runbooks do",
             "actor": "^kushuh$",
-            "action": "^protected_branch\\.policy_override$",
-            "branch": "^refs/heads/master$",
-            "overridden_codes": "^merge_queue,required_status_checks,review_policy_not_satisfied$",
-            "programmatic_access_type": "^OAuth access token$",
-            "user_agent": "^GitHub CLI v"
-          },
-          {
-            "reason": "The admin's CLI manages environments, their secrets and the area teams' repository grants, as repo update and the infra runbooks do",
-            "actor": "^kushuh$",
-            "action": "^(environment\\.[a-z_]+|team\\.(create|add_repository|remove_repository|change_parent_team|update_repository_permission))$",
-            "programmatic_access_type": "^OAuth access token$",
-            "user_agent": "^GitHub CLI v"
-          },
-          {
-            "reason": "a-novel repo update reconciles a ruleset, kept enforced, whose only new bypass is the release App",
-            "actor": "^kushuh$",
-            "action": "^repository_ruleset\\.(create|update)$",
-            "ruleset_enforcement": "^enabled$",
-            "ruleset_bypass_actors_added": "^(\\{\"actor_id\":5307879,\"actor_type\":\"Integration\",\"bypass_mode\":\"(always|exempt)\",\"id\":\\d+\\})?$",
+            "action": "^environment\\.[a-z_]+$",
             "programmatic_access_type": "^OAuth access token$",
             "user_agent": "^GitHub CLI v"
           },
