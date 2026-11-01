@@ -22,7 +22,8 @@ A few names predate this rule and keep Agora for now:
 - the logo, until A-Novel has its own;
 - the `agora-storyverse` Google Cloud project and the `agorastoryverse.com` Google Workspace domain;
 - the `agorastoryverse` social handles;
-- the `agora-` prefix of production resource IDs, until their migration lands.
+- two names in a-novel/infra: the `agora` value of its `application` label and the `agora-production`
+  DNS policy.
 
 ## Services and domains
 
