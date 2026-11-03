@@ -63,9 +63,9 @@ body:
         A breaking change removes or renames a public symbol, changes what a public API does, or
         otherwise makes existing consumers update their code or configuration.
       options:
-        - "No — fully backwards compatible"
-        - "Yes — but staged migration is possible"
-        - "Yes — hard break, no migration path"
+        - "No, fully backward compatible"
+        - "Yes, but a staged migration is possible"
+        - "Yes, a hard break with no migration path"
         - "I'm not sure"
     validations:
       required: true

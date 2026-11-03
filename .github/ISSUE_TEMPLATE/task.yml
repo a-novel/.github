@@ -85,8 +85,8 @@ body:
         The Task sub-issues in order, each about one pull request. Track them as sub-issues with
         blocked-by links, and list them here for the reader.
       placeholder: |
-        1. service-x — add the new endpoint (#...)
-        2. platform-y — wire the client, blocked by #1
+        1. service-x: add the new endpoint (#...)
+        2. platform-y: wire the client, blocked by #1
     validations:
       required: false
 

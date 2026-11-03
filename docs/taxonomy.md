@@ -188,22 +188,22 @@ The concepts hold whatever tools implement them. A-Novel's current choices are:
 The layers map to the same Go packages in every service, so a contributor finds the same shape in each.
 Only the domain resource differs.
 
-- **`internal/dao`** — the DAO layer; one file per query (a `.go`, plus a `.sql` when the query is
+- **`internal/dao`**: the DAO layer; one file per query (a `.go`, plus a `.sql` when the query is
   hand-written), built on bun.
-- **`internal/core`** — the core layer; one file per feature. Each feature **owns the interface of the
+- **`internal/core`**: the core layer; one file per feature. Each feature **owns the interface of the
   dependency it calls**: a `<Feature>Dao` Go interface such as `JwkSelectDao`, held in a `dao` field,
   while `internal/dao` provides the implementation. The core depends on a contract it defines, never on
   the database package, so a high layer can mock everything beneath it (see
   [Layering rationale](#layering-rationale)).
-- **`internal/handlers`** — the handler layer; `rest.*` files serve the REST API, `grpc.*` the gRPC one.
-- **`cmd/<target>`** — one `main.go` per [target](#runnable-units): a server or a job.
-- **`pkg/go`, `pkg/js`** — the [client packages](#interacting-with-a-service), one per language.
+- **`internal/handlers`**: the handler layer; `rest.*` files serve the REST API, `grpc.*` the gRPC one.
+- **`cmd/<target>`**: one `main.go` per [target](#runnable-units), a server or a job.
+- **`pkg/go`, `pkg/js`**: the [client packages](#interacting-with-a-service), one per language.
 
 The test mocks of the Go interfaces between layers are **generated**. A service's own `CONTRIBUTING.md`
 maps these packages to its concrete resource and files.
 
 ## External resources
 
-- [Developer guide](https://a-novel-kit.github.io/stack/) — the toolchain and the `a-novel` CLI.
-- [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) —
+- [Developer guide](https://a-novel-kit.github.io/stack/): the toolchain and the `a-novel` CLI.
+- [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html):
   the layering these services follow.
