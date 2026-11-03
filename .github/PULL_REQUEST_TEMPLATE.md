@@ -31,15 +31,15 @@ Closes #
 
 <!-- Tick all that apply. -->
 
-- [ ] `feat` — new capability
-- [ ] `fix` — bug fix
-- [ ] `refactor` — restructuring without behavior change
-- [ ] `perf` — performance improvement
-- [ ] `test` — tests only
-- [ ] `docs` — documentation only
-- [ ] `chore` — maintenance, dependencies, build, etc.
-- [ ] `ci` — CI/CD pipeline only
-- [ ] `revert` — revert of a previous commit
+- [ ] `feat`: new capability
+- [ ] `fix`: bug fix
+- [ ] `refactor`: restructuring without behavior change
+- [ ] `perf`: performance improvement
+- [ ] `test`: tests only
+- [ ] `docs`: documentation only
+- [ ] `chore`: maintenance, dependencies, build, etc.
+- [ ] `ci`: CI/CD pipeline only
+- [ ] `revert`: revert of a previous commit
 
 ## Breaking changes
 

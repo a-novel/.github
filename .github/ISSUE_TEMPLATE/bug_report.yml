@@ -83,10 +83,10 @@ body:
       value: |
         - OS:
         - Architecture (amd64, arm64):
-        - Go version (`go version`) — if applicable:
-        - Node version (`node --version`) — if applicable:
-        - Browser (name + version) — if applicable:
-        - Container runtime (Docker / Podman + version) — if applicable:
+        - Go version (`go version`), if applicable:
+        - Node version (`node --version`), if applicable:
+        - Browser (name + version), if applicable:
+        - Container runtime (Docker / Podman + version), if applicable:
     validations:
       required: false
 
