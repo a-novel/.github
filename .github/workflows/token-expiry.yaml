@@ -25,7 +25,7 @@ jobs:
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       dry_run: "false"
-      test_run: ${{ inputs.test_run || false }}
+      test_run: ${{ inputs.test_run }}
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
       webhook: ${{ secrets.TOKEN_EXPIRY_WEBHOOK }}
