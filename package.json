@@ -2,7 +2,7 @@
   "name": ".github",
   "version": "0.0.0",
   "private": true,
-  "license": "AGPL-3.0",
+  "license": "RPL-1.5",
   "type": "module",
   "scripts": {
     "format": "pnpm run format:prettier",
