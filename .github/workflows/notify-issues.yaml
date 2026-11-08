@@ -1,7 +1,8 @@
 # Posts each board issue's Status and assignee changes to its repository's Discord issues channel,
 # or to the org's channel when the repository has none. The reusable workflow polls the board,
-# because a Status change raises no event. GitHub starts scheduled workflows hours late, so
-# a-novel/infra's Cloud Scheduler dispatches this one every 15 minutes.
+# because a Status change raises no event, and dispatches each repository's notify-post.yaml with
+# its posts, since only that repository reads its own webhook. GitHub starts scheduled workflows
+# hours late, so a-novel/infra's Cloud Scheduler dispatches this one every 15 minutes.
 name: notify-issues
 
 on:
@@ -21,10 +22,5 @@ jobs:
     with:
       project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
-      roles: ${{ vars.DISCORD_REPO_ROLES }}
-      bws_server_url: ${{ vars.BWS_SERVER_URL }}
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
-      webhook: ${{ secrets.ISSUES_WEBHOOK }}
-      webhooks: ${{ secrets.ISSUES_WEBHOOKS }}
-      bws_access_token: ${{ secrets.BWS_READ_TOKEN }}
