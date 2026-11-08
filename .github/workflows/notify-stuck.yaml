@@ -21,13 +21,9 @@ jobs:
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       roles: ${{ vars.DISCORD_REPO_ROLES }}
-      bws_server_url: ${{ vars.BWS_SERVER_URL }}
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
       dependencies_webhook: ${{ secrets.DEPENDENCIES_WEBHOOK }}
-      reviews_webhook: ${{ secrets.REVIEWS_WEBHOOK }}
-      reviews_webhooks: ${{ secrets.REVIEWS_WEBHOOKS }}
-      bws_access_token: ${{ secrets.BWS_READ_TOKEN }}
       security_webhook: ${{ secrets.SECURITY_WEBHOOK }}
       # The admin who triages every security ping, as for notify-audit.
       security_mention: ${{ secrets.TOKEN_EXPIRY_ADMIN }}
