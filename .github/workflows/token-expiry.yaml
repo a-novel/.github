@@ -1,4 +1,4 @@
-# Warns the token-expiry Discord channel before the org's fine-grained personal access tokens
+# Warns the token-expiry chat channel before the org's fine-grained personal access tokens
 # expire. The App token is scoped to this org, so each org sweeps its own tokens. GitHub starts
 # scheduled workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one daily at
 # 08:00 UTC, with no inputs.
