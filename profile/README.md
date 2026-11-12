@@ -67,7 +67,7 @@ online writing studio. It helps you speed up your writing process and focus on c
 Join us on social media!
 
 [![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/agorastoryverse)](https://twitter.com/agorastoryverse)
-[![Discord](https://img.shields.io/discord/1315240114691248138?logo=discord)](https://discord.gg/rp4Qr8cA)
+[![Fluxer](https://img.shields.io/badge/Fluxer-Agora-blue?logo=fluxer)](https://fluxer.gg/zrf7UIAg)
 [![Spotify](https://img.shields.io/badge/Spotify-1ED760?logo=spotify&logoColor=white)](https://open.spotify.com/show/6NiTIuFh4vtNVoJzLozrWb)
 
 ## Contributing

@@ -35,4 +35,4 @@ The Project Owner records signatures and matches them to accepted pull requests 
 
 ## Questions?
 
-Ask on [Discord](https://discord.gg/rp4Qr8cA), or open an issue on the affected repository.
+Ask on [Fluxer](https://fluxer.gg/zrf7UIAg), or open an issue on the affected repository.
