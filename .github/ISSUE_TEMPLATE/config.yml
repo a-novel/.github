@@ -6,9 +6,9 @@ contact_links:
       Report a vulnerability privately, through GitHub private vulnerability reporting or email,
       as the security policy describes. Never open a public issue for it.
   - name: Questions, discussions and community support
-    url: https://discord.gg/rp4Qr8cA
+    url: https://fluxer.gg/zrf7UIAg
     about: |
-      Ask questions, discuss designs and get help on Discord. Issues track concrete work: bug
+      Ask questions, discuss designs and get help on Fluxer. Issues track concrete work: bug
       reports, feature requests and planned tasks.
   - name: Code of Conduct
     url: https://github.com/a-novel/.github/blob/master/CODE_OF_CONDUCT.md
