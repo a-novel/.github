@@ -1,4 +1,4 @@
-# Posts bots' pull requests that stay green but never merge to the org's Discord dependencies
+# Posts bots' pull requests that stay green but never merge to the org's chat dependencies
 # channel, and to their repository's reviews channel when they wait on a review. It also tells the
 # security channel when notify-audit has not succeeded for 2 hours. GitHub starts scheduled
 # workflows hours late, so a-novel/infra's Cloud Scheduler dispatches this one every hour.
@@ -20,7 +20,7 @@ jobs:
     uses: a-novel-kit/workflows/.github/workflows/notify-stuck-run.yaml@v1.86.0
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
-      roles: ${{ vars.DISCORD_REPO_ROLES }}
+      roles: ${{ vars.CHAT_REPO_ROLES }}
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
       dependencies_webhook: ${{ secrets.DEPENDENCIES_WEBHOOK }}

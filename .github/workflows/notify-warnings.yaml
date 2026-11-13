@@ -1,4 +1,4 @@
-# Posts a daily digest of the CI warnings this org's default branches raised to its Discord CI
+# Posts a daily digest of the CI warnings this org's default branches raised to its chat CI
 # channel. GitHub starts scheduled workflows hours late, so a-novel/infra's Cloud Scheduler
 # dispatches this one daily at 07:00 UTC.
 #

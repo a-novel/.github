@@ -1,4 +1,4 @@
-# Posts each board issue's Status and assignee changes to its repository's Discord issues channel,
+# Posts each board issue's Status and assignee changes to its repository's chat issues channel,
 # or to the org's channel when the repository has none. The reusable workflow polls the board,
 # because a Status change raises no event, and dispatches each repository's notify-post.yaml with
 # its posts, since only that repository reads its own webhook. GitHub starts scheduled workflows
