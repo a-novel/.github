@@ -15,7 +15,7 @@ jobs:
   reconcile:
     # The callee mints its own App token. The caller's block caps the callee's, so it grants nothing.
     permissions: {}
-    uses: a-novel-kit/workflows/.github/workflows/reconcile-board-run.yaml@v1.87.0
+    uses: a-novel-kit/workflows/.github/workflows/reconcile-board-run.yaml@v1.87.1
     with:
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
       # Posts epic-freeze check-runs, which fail on a partial landing.
