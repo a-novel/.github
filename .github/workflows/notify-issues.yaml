@@ -20,7 +20,6 @@ jobs:
       actions: read
     uses: a-novel-kit/workflows/.github/workflows/notify-issues-run.yaml@v1.87.0
     with:
-      project_id: ${{ github.repository_owner == 'a-novel' && 'PVT_kwDOB9MxdM4BMh8r' || 'PVT_kwDOCy-nAM4BbtKH' }}
       client_id: ${{ vars.AGENT_BOT_CLIENT_ID }}
     secrets:
       private_key: ${{ secrets.AGENT_BOT_PRIVATE_KEY }}
